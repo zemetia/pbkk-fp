@@ -18,9 +18,12 @@ class RoleHasPermissionSeeder extends Seeder
         $role_has_permissions = json_decode($json, true);
 
         $payload = [];
+
+        $id = 0;
         foreach ($role_has_permissions as $role_has_permission) {
+            $id++;
             $payload[] = [
-                'id' => $role_has_permission['id'],
+                'id' => $id,
                 'roles_id' => $role_has_permission['role_id'],
                 'permissions_id' => $role_has_permission['permission_id']
             ];
