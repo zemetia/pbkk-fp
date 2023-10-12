@@ -5,9 +5,10 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleHasPermissionController;
-  
+
 Route::get('hello', function () {
     return response()->json();
 });
@@ -47,6 +48,10 @@ Route::middleware(['iam'])->group(
         //User
         Route::get('/users', [UserController::class, 'getUserList'])->middleware('permission:users.index');
         Route::delete('/users', [UserController::class, 'deleteUser'])->middleware('permission:users.delete');
+
+        //Article
+        Route::post('/articles', [ArticleController::class, 'createArticle'])->middleware('permission:articles.store');
+
 
         //Role
         Route::get('/roles', [RoleController::class, 'getRoleList'])->middleware('permission:roles.index');

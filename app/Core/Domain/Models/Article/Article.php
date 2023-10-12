@@ -2,6 +2,7 @@
 
 namespace App\Core\Domain\Models\Article;
 
+use Illuminate\Support\Carbon;
 use App\Core\Domain\Models\User\UserId;
 
 class Article
@@ -32,7 +33,7 @@ class Article
         $this->tags = $tags;
     }
 
-    public static function create(UserId $author_id, ArticleVisibility $visibility, string $title, string $description, string $content, string $url, string $image_url, string $created_at, string $updated_at, array $tags): self
+    public static function create(UserId $author_id, ArticleVisibility $visibility, string $title, string $description, string $content, string $url, string $image_url, array $tags): self
     {
         return new self(
             ArticleId::generate(),
@@ -43,9 +44,64 @@ class Article
             $content,
             $url,
             $image_url,
-            $created_at,
-            $updated_at,
+            Carbon::now(),
+            Carbon::now(),
             $tags
         );
+    }
+
+    public function getId(): ArticleId
+    {
+        return $this->id;
+    }
+
+    public function getAuthorId(): UserId
+    {
+        return $this->author_id;
+    }
+
+    public function getVisibility(): ArticleVisibility
+    {
+        return $this->visibility;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    public function getImageUrl(): string
+    {
+        return $this->image_url;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->created_at;
+    }
+
+    public function getUpdatedAt(): string
+    {
+        return $this->updated_at;
+    }
+
+    public function getTags(): array
+    {
+        return $this->tags;
     }
 }
