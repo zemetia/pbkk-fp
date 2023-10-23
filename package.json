@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
+    "laravel-mix": "^6.0.49",
     "laravel-vite-plugin": "^0.8.1",
     "postcss": "^8.4.30",
     "resolve-url-loader": "^5.0.0",
@@ -23,7 +24,6 @@
     "@vitejs/plugin-vue": "^4.3.4",
     "axios": "^1.5.1",
     "editor.md": "^1.5.0",
-    "laravel-mix": "^6.0.49",
     "laravel-mix-tailwind": "^0.1.2",
     "lodash": "^4.17.21",
     "marked": "^9.0.3",

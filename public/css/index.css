@@ -1,0 +1,78 @@
+.navbar {
+    height: 61px;
+    box-shadow: 1px 1px 7px 3px #cecece;
+}
+
+.content {
+    font-family: 'Inter', sans-serif;
+}
+
+.content .posts {
+    border: 1px solid red;
+    width: 70%;
+}
+
+.content .posts .choices {
+    color: #B5B2C5;
+}
+
+.content .posts .choices .active {
+    color: #000;
+}
+
+.content .posts .articles {
+    height: 163px;
+    width: 761px;
+    border: 1px solid green;
+}
+
+.content .posts .articles .information {
+    font-family: 'Montserrat', sans-serif;
+    max-height: 100px;
+    width: 70%;
+}
+
+.content .posts .articles .thumbnail {
+    position: relative;
+}
+
+.content .posts .articles .thumbnail img {
+    position: absolute;
+}
+
+.content .posts .articles .author {
+    border: 1px solid orange;
+    max-height: 32px;
+    position: relative;
+}
+
+.content .posts .articles .author .profile {
+    border-radius: 30px;
+    position: relative;
+    border: 1px solid purple;
+    width: 31px;
+    height: 31px;
+}
+
+.content .posts .articles .author .name {
+    font-family: 'Montserrat', sans-serif;
+    position: absolute;
+}
+
+.content .posts .articles .author .name::after {
+    content: url('../images/icons/dot-4.png');
+    display: inline;
+    position: absolute;
+    margin-left: 6px;
+    margin-top: 8px;
+}
+
+.content .posts .articles .author .profile img {
+    position: absolute;
+}
+
+.content .side {
+    border: 1px solid blue;
+    width: 30%;
+}
+
