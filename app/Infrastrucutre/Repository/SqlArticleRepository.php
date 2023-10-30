@@ -15,17 +15,23 @@ class SqlArticleRepository implements ArticleRepositoryInterface
     public function persist(Article $articles): void
     {
         DB::table('articles')->upsert([
-            'id' => $articles->getId()->toString(),
+            'id' => $articles->getId(),
+            'url' => $articles->getUrl(),
             'title' => $articles->getTitle(),
+            'content' => $articles->getContent(),
+            'image_url' => $articles->getImageUrl(),
+            'author_id' => $articles->getAuthorId(),
+            'visibility' => $articles->getVisibility()->value,
+            'description' => $articles->getDescription(),
         ], 'id');
     }
 
     /**
      * @throws Exception
      */
-    public function find(int $id): ?Article
+    public function find(ArticleId $id): ?Article
     {
-        $row = DB::table('articles')->where('id', $id)->first();
+        $row = DB::table('articles')->where('id', $id->toString())->first();
 
         if (!$row) {
             return null;
@@ -64,7 +70,6 @@ class SqlArticleRepository implements ArticleRepositoryInterface
             $row->image_url,
             $row->created_at,
             $row->updated_at,
-            []
         );
     }
 
@@ -83,8 +88,8 @@ class SqlArticleRepository implements ArticleRepositoryInterface
         ];
     }
 
-    public function delete(int $id): void
+    public function delete(ArticleId $id): void
     {
-        DB::table('articles')->where('id', $id)->delete();
+        DB::table('articles')->where('id', $id->toString())->delete();
     }
 }
