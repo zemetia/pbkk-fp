@@ -8,7 +8,7 @@
 }
 
 .content .posts {
-    border: 1px solid red;
+    border-right: 1px solid #ECECEC;
     width: 70%;
 }
 
@@ -21,15 +21,21 @@
 }
 
 .content .posts .articles {
-    height: 163px;
+    height: 200px;
     width: 761px;
-    border: 1px solid green;
+    display: block;
 }
 
 .content .posts .articles .information {
     font-family: 'Montserrat', sans-serif;
     max-height: 100px;
     width: 70%;
+}
+
+.content .posts .articles .information p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
 }
 
 .content .posts .articles .thumbnail {
@@ -41,7 +47,6 @@
 }
 
 .content .posts .articles .author {
-    border: 1px solid orange;
     max-height: 32px;
     position: relative;
 }
@@ -49,14 +54,18 @@
 .content .posts .articles .author .profile {
     border-radius: 30px;
     position: relative;
-    border: 1px solid purple;
     width: 31px;
     height: 31px;
 }
 
 .content .posts .articles .author .name {
     font-family: 'Montserrat', sans-serif;
-    position: absolute;
+    position: relative;
+}
+
+.content .posts .articles .author .date {
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
 }
 
 .content .posts .articles .author .name::after {
@@ -71,8 +80,24 @@
     position: absolute;
 }
 
+.content .posts .articles .post-category {
+    height: 32px;
+    color: #3E3E3E;
+    font-weight: 300;
+    font-size: 12px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
 .content .side {
-    border: 1px solid blue;
     width: 30%;
+}
+
+.content .side .people .info h1 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.content .side .people .info h2 {
+    font-family: 'Inter', sans-serif;
 }
 
