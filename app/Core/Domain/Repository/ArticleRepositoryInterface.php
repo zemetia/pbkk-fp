@@ -2,6 +2,7 @@
 
 namespace App\Core\Domain\Repository;
 
+use App\Core\Domain\Models\User\UserId;
 use App\Core\Domain\Models\Article\Article;
 use App\Core\Domain\Models\Article\ArticleId;
 
@@ -14,4 +15,8 @@ interface ArticleRepositoryInterface
     public function find(ArticleId $id): ?Article;
 
     public function getWithPagination(int $page, int $per_page): array;
+
+    public function getUserArticleWithPagination(UserId $user_id, int $page, int $per_page): array;
+
+    public function getTaggedArticleWithPagination(string $tag_name, int $page, int $per_page): array;
 }
