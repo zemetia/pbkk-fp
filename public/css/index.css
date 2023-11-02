@@ -101,3 +101,14 @@
     font-family: 'Inter', sans-serif;
 }
 
+.login {
+    background: url('../images/bg-login.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login .contentl {
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
