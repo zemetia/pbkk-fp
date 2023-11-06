@@ -29,13 +29,14 @@
     </div>
 
     <div class="content w-4/5 mx-auto px-8 flex justify-between">
-        <div class="posts my-16 py-12 pr-10">
+        <div class="posts my-16 py-12 pr-10 border-r border-r-[#ECECEC]">
             <div class="choices max-w-full border-b flex items-center">
                 <span class="active py-3 mr-3 border-b border-black">Trending</span>
                 <span class="py-3">New</span>
             </div>
 
             <div class="articles my-12">
+                <a href="">
                 <div class="flex justify-between relative min-h-[120px]">
                     <div class="information pr-5">
                         <h1 class="text-xl font-bold">
@@ -49,6 +50,8 @@
                         <img src="images/stellaron hunters.jpg" alt="Stellaron Hunters" />
                     </div>
                 </div>
+                </a>
+                
 
                 <div class="flex justify-between items-end">
                     <div class="author w-1/2 mt-5">
@@ -71,19 +74,21 @@
             </div>
 
             <div class="articles my-12">
-                <div class="flex justify-between relative min-h-[120px]">
-                    <div class="information pr-5">
-                        <h1 class="text-xl font-bold">
-                            High Cloud Quintet and Its Demise
-                        </h1>
-                        <p class="text-sm mt-3 text-ellipsis overflow-hidden">
-                            The High-Cloud Quintet was a legendary group of five heroes in Xianzhou history. They were led by Jingliu, the previous Sword Champion of The Xianzhou Luofu. However, they disbanded less than a hundred years after their group's formation
-                        </p>
+                <a href="">
+                    <div class="flex justify-between relative min-h-[120px]">
+                        <div class="information pr-5">
+                            <h1 class="text-xl font-bold">
+                                High Cloud Quintet and Its Demise
+                            </h1>
+                            <p class="text-sm mt-3 text-ellipsis overflow-hidden">
+                                The High-Cloud Quintet was a legendary group of five heroes in Xianzhou history. They were led by Jingliu, the previous Sword Champion of The Xianzhou Luofu. However, they disbanded less than a hundred years after their group's formation
+                            </p>
+                        </div>
+                        <div class="thumbnail w-1/4 overflow-hidden">
+                            <img src="https://static.wikia.nocookie.net/houkai-star-rail/images/7/7c/Investigation_of_Ancient_Pattern_Rubbings_from_the_Luofu_8.png" alt="High Cloud Quintet" />
+                        </div>
                     </div>
-                    <div class="thumbnail w-1/4 overflow-hidden">
-                        <img src="https://static.wikia.nocookie.net/houkai-star-rail/images/7/7c/Investigation_of_Ancient_Pattern_Rubbings_from_the_Luofu_8.png" alt="High Cloud Quintet" />
-                    </div>
-                </div>
+                </a>
 
                 <div class="flex justify-between items-end">
                     <div class="author w-1/2 mt-5">
@@ -106,19 +111,21 @@
             </div>
 
             <div class="articles my-12">
-                <div class="flex justify-between relative min-h-[120px]">
-                    <div class="information pr-5">
-                        <h1 class="text-lg font-bold">
-                            What is The Greatest Thing Imbibitor Lunae Can Do?
-                        </h1>
-                        <p class="text-sm mt-3 text-ellipsis overflow-hidden">
-                            Imbibitor Lunae is the title used by the Vidyadhara High Elder of The Xianzhou Luofu, successor of the Azure Dragon, Commander of the Clouds and the Rain, and is tasked with watching over the Ambrosial Arbor. After the Vidyadhara joined...
-                        </p>
+                <a href="">
+                    <div class="flex justify-between relative min-h-[120px]">
+                        <div class="information pr-5">
+                            <h1 class="text-lg font-bold">
+                                What is The Greatest Thing Imbibitor Lunae Can Do?
+                            </h1>
+                            <p class="text-sm mt-3 text-ellipsis overflow-hidden">
+                                Imbibitor Lunae is the title used by the Vidyadhara High Elder of The Xianzhou Luofu, successor of the Azure Dragon, Commander of the Clouds and the Rain, and is tasked with watching over the Ambrosial Arbor. After the Vidyadhara joined...
+                            </p>
+                        </div>
+                        <div class="thumbnail w-1/4 overflow-hidden">
+                            <img src="https://s1.zerochan.net/Imbibitor.Lunae.600.3989791.jpg" alt="High Cloud Quintet" />
+                        </div>
                     </div>
-                    <div class="thumbnail w-1/4 overflow-hidden">
-                        <img src="https://s1.zerochan.net/Imbibitor.Lunae.600.3989791.jpg" alt="High Cloud Quintet" />
-                    </div>
-                </div>
+                </a>
 
                 <div class="flex justify-between items-end relative">
                     <div class="author w-1/2 mt-5">
