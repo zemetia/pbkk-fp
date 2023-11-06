@@ -82,6 +82,9 @@
                     } );
                 </script>
 
+                <label for="image">Upload Image</label>
+                <input type="file" name="file" id="file" class="w-full">
+
                 <input type="submit" class="w-[80px] h-[40px] rounded-md mt-3 bg-[#888888] text-[#ffffff] cursor-pointer hover:bg-[#777777]" value="Submit">
             </form>
         </div>

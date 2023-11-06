@@ -130,4 +130,5 @@ body {
 
 .ck-editor__editable {
     height: 250px;
+    margin-bottom: 1rem;
 }
