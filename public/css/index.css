@@ -1,0 +1,134 @@
+body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    height: 61px;
+    box-shadow: 1px 1px 7px 3px #cecece;
+}
+
+.content {
+    font-family: 'Inter', sans-serif;
+}
+
+.content .posts {
+    width: 70%;
+}
+
+.content .posts .choices {
+    color: #B5B2C5;
+}
+
+.content .posts .choices .active {
+    color: #000;
+}
+
+.content .posts .articles {
+    height: 200px;
+    width: 761px;
+    display: block;
+}
+
+.content .posts .articles .information {
+    font-family: 'Montserrat', sans-serif;
+    max-height: 100px;
+    width: 70%;
+}
+
+.content .posts .articles .information p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.content .posts .articles .thumbnail {
+    position: relative;
+}
+
+.content .posts .articles .thumbnail img {
+    position: absolute;
+}
+
+.content .posts .articles .author {
+    max-height: 32px;
+    position: relative;
+}
+
+.content .posts .articles .author .profile {
+    border-radius: 30px;
+    position: relative;
+    width: 31px;
+    height: 31px;
+}
+
+.content .posts .articles .author .name {
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+}
+
+.content .posts .articles .author .date {
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+}
+
+.content .posts .articles .author .name::after {
+    content: url('../images/icons/dot-4.png');
+    display: inline;
+    position: absolute;
+    margin-left: 6px;
+    margin-top: 8px;
+}
+
+.content .posts .articles .author .profile img {
+    position: absolute;
+}
+
+.content .posts .articles .post-category {
+    height: 32px;
+    color: #3E3E3E;
+    font-weight: 300;
+    font-size: 12px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.content .side {
+    width: 30%;
+}
+
+.content .side .people .info h1 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.content .side .people .info h2 {
+    font-family: 'Inter', sans-serif;
+}
+
+.login {
+    background: url('../images/bg-login.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login .contentl {
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+
+/* dashboard section */
+
+.content .posts table {
+    border-radius: 5px;
+}
+
+.content .posts table tr th, .content .posts table tr td {
+    padding-left: 1.5rem;
+}
+
+.ck-editor__editable {
+    height: 250px;
+    margin-bottom: 1rem;
+}

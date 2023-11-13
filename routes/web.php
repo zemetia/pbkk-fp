@@ -16,3 +16,23 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('index');
 });
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard.index');
+// });
+
+// Route::get('/dashboard/articles', function () {
+//     return view('dashboard.articles');
+// });
+
+// Route::get('/dashboard/articles/write', function () {
+//     return view('dashboard.write');
+// });
+
+// Route::get('/login', function () {
+//     return view('login');
+// });
+
+// Route::get('/register', function () {
+//     return view('register');
+// });
