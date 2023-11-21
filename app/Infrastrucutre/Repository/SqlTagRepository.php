@@ -15,7 +15,7 @@ class SqlArticleRepository implements ArticleRepositoryInterface
     public function persist(Article $articles): void
     {
         DB::table('articles')->upsert([
-            'id' => $articles->getId()->toString(),
+            'id' => $articles->getId(),
             'url' => $articles->getUrl(),
             'title' => $articles->getTitle(),
             'content' => $articles->getContent(),

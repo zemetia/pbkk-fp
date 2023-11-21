@@ -15,11 +15,11 @@ interface CoAuthorRepositoryInterface
      */
     public function persist(CoAuthor $coauthor): void;
 
-    public function delete(CoAuthor $coauthor): void;
+    public function delete(CoAuthorId $id): void;
 
     public function find(CoAuthorId $id): ?CoAuthor;
 
     public function getByArticleId(ArticleId $article_id): array;
 
-    public function isUserCoAuthoredArticle(UserId $userId, ArticleId $article_id): bool;
+    public function isUserCoAuthoredArticle(UserId $user_id, ArticleId $article_id): bool;
 }
