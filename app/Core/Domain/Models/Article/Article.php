@@ -17,8 +17,7 @@ class Article
     private string $image_url;
     private string $created_at;
     private string $updated_at;
-    private array $tags;
-    public function __construct(ArticleId $id, UserId $author_id, ArticleVisibility $visibility, string $title, string $description, string $content, string $url, string $image_url, string $created_at, string $updated_at, array $tags)
+    public function __construct(ArticleId $id, UserId $author_id, ArticleVisibility $visibility, string $title, string $description, string $content, string $url, string $image_url, string $created_at, string $updated_at)
     {
         $this->id = $id;
         $this->author_id = $author_id;
@@ -30,10 +29,9 @@ class Article
         $this->image_url = $image_url;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
-        $this->tags = $tags;
     }
 
-    public static function create(UserId $author_id, ArticleVisibility $visibility, string $title, string $description, string $content, string $url, string $image_url, array $tags): self
+    public static function create(UserId $author_id, ArticleVisibility $visibility, string $title, string $description, string $content, string $url, string $image_url): self
     {
         return new self(
             ArticleId::generate(),
@@ -46,7 +44,6 @@ class Article
             $image_url,
             Carbon::now(),
             Carbon::now(),
-            $tags
         );
     }
 
@@ -98,10 +95,5 @@ class Article
     public function getUpdatedAt(): string
     {
         return $this->updated_at;
-    }
-
-    public function getTags(): array
-    {
-        return $this->tags;
     }
 }

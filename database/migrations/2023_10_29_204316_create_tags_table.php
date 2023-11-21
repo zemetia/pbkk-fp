@@ -13,17 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->integer('roles_id')->index();
-            $table->string('name', 128);
-            $table->string('email')->index();
-            $table->string('username')->index();
-            $table->string('password', 64);
+            $table->uuid('article_id')->index();
+            $table->string('tag_name');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
-            $table->foreign('roles_id')->references('id')->on('roles');
+            $table->foreign('article_id')->references('id')->on('articles');
         });
     }
 
@@ -34,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('tags');
     }
 };

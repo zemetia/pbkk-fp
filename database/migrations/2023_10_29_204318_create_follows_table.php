@@ -13,17 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('coauthors', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->integer('roles_id')->index();
-            $table->string('name', 128);
-            $table->string('email')->index();
-            $table->string('username')->index();
-            $table->string('password', 64);
+            $table->uuid('from_id')->index();
+            $table->uuid('to_id')->index();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
-            $table->foreign('roles_id')->references('id')->on('roles');
+            $table->foreign('from_id')->references('id')->on('users');
+            $table->foreign('to_id')->references('id')->on('users');
         });
     }
 
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('coauthors');
     }
 };
