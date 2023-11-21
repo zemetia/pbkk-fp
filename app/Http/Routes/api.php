@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\Domain\Models\Article\Article;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -16,6 +17,8 @@ Route::get('hello', function () {
 // User
 Route::post('/create_user', [UserController::class, 'createUser']);
 Route::post('/login_user', [UserController::class, 'loginUser']);
+Route::get('/{username}', [UserController::class, 'getUser']); // .
+Route::get('/{username}/{slug}', [ArticleController::class, 'getArticle']); // .
 
 // Region
 Route::get('/province', [RegionController::class, 'getProvince']);
@@ -45,13 +48,23 @@ Route::middleware(['iam'])->group(
         Route::get('/me', [UserController::class, 'me']);
         Route::post('/change_password', [UserController::class, 'changePassword']);
 
-        //User
+        Route::post('/{username}/follow', [UserController::class, 'followUser']); // .
+        Route::delete('/{username}/follow', [UserController::class, 'unfollowUser']); // .
+
         Route::get('/users', [UserController::class, 'getUserList'])->middleware('permission:users.index');
         Route::delete('/users', [UserController::class, 'deleteUser'])->middleware('permission:users.delete');
 
         //Article
-        Route::post('/articles', [ArticleController::class, 'createArticle'])->middleware('permission:articles.store');
+        Route::post('/articles', [ArticleController::class, 'createArticle'])->middleware('permission:articles.store'); // .
+        Route::delete('/{username}/{slug}', [ArticleController::class, 'deleteArticle'])->middleware('permission:articles.delete'); // .
+        Route::put('/{username}/{slug}', [ArticleController::class, 'updateArticle'])->middleware('permission:articles.update'); // .
 
+        //Tags
+        Route::post('/tags', [ArticleController::class, 'createTags']); // .
+
+        //CoAuthor
+        Route::post('/articles/{slug}/coauthor', [CoauthorController::class, 'add'])->middleware('permission:coauthor.add'); // .
+        Route::delete('/articles/{slug}/coauthor', [CoauthorController::class, 'delete'])->middleware('permission:coauthor.delete'); // .
 
         //Role
         Route::get('/roles', [RoleController::class, 'getRoleList'])->middleware('permission:roles.index');
