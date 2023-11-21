@@ -39,6 +39,79 @@ class ArticleController extends Controller
             throw $e;
         }
         DB::commit();
-        return $this->success("Berhasil Registrasi");
+        return $this->success("Berhasil Menambahkan Artikel");
+    }
+
+    public function deleteArticle($username, $slug, Request $request, DeleteArticleService $service): JsonResponse
+    {
+        $input = new DeleteArticleRequest(
+            $username,
+            $slug
+        );
+
+        DB::beginTransaction();
+        try {
+            $service->execute($input, $request->get('account')->getUserId());
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        DB::commit();
+        return $this->success("Berhasil Menghapus Artikel");
+    }
+
+    public function updateArticle($username, $slug, Request $request, UpdateArticleService $service): JsonResponse
+    {
+        $input = new UpdateArticleRequest(
+            $username,
+            $slug,
+            $request->input('visibility'),
+            $request->input('title'),
+            $request->input('description'),
+            $request->input('content'),
+            $request->input('image_url'),
+            $request->input('tags'),
+        );
+
+        DB::beginTransaction();
+        try {
+            $service->execute($input, $request->get('account')->getUserId());
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        DB::commit();
+        return $this->success("Berhasil Update Artikel");
+    }
+
+    public function getArticle($username, $slug, GetArticleService $service): JsonResponse
+    {
+        $input = new GetArticleRequest(
+            $username,
+            $slug
+        );
+
+        $response = $service->execute($input);
+        return $this->successWithData($response, "Berhasil Mendapatkan User Page");
+    }
+
+    public function createTag(Request $request, CreateTagService $service): JsonResponse
+    {
+        // every time tag separated by , it will send request to create tag and assign it to this article
+        // create Schedulling to delete tag(s) with 0 articles on it
+        $input = new CreateTagRequest(
+            $request->input("tag"),
+            $request->input("article_id")
+        );
+
+        DB::beginTransaction();
+        try {
+            $service->execute($input, $request->get('account')->getUserId());
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        DB::commit();
+        return $this->success("Berhasil Menambahkan Tag");
     }
 }
