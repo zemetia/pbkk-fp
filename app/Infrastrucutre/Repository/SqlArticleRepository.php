@@ -40,18 +40,22 @@ class SqlArticleRepository implements ArticleRepositoryInterface
         return $this->constructFromRow($row);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function findLargestId(): ?int
+    public function findByUsernameAndSlug(string $username, string $slug): ?Article
     {
-        $row = DB::table('articles')->max('id');
+        $author = DB::table('users')->where('username', $username)->first();
+        if (!$author) {
+            return null;
+        }
+
+
+
+        $row = DB::table('articles')->where('id', $author->id)->where('url', $slug)->first();
 
         if (!$row) {
             return null;
         }
 
-        return $row;
+        return $this->constructFromRow($row);
     }
 
     /**

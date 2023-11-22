@@ -79,10 +79,6 @@ class SqlUserRepository implements UserRepositoryInterface
                 $row->profile_photo_url,
                 $row->username,
                 $row->description,
-                $row->followers,
-                $row->following,
-                $row->authored_article_count,
-                $row->coauthored_article_count,
                 $row->password
             );
         }

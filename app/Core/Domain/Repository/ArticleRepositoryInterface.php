@@ -14,6 +14,8 @@ interface ArticleRepositoryInterface
 
     public function find(ArticleId $id): ?Article;
 
+    public function findByUsernameAndSlug(string $username, string $slug): ?Article;
+
     public function getWithPagination(int $page, int $per_page): array;
 
     public function getUserArticleWithPagination(UserId $user_id, int $page, int $per_page): array;

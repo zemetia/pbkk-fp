@@ -3,7 +3,9 @@
 namespace App\Infrastrucutre\Repository;
 
 use Exception;
+use App\Core\Domain\Models\Email;
 use Illuminate\Support\Facades\DB;
+use App\Core\Domain\Models\User\User;
 use App\Core\Domain\Models\User\UserId;
 use App\Core\Domain\Models\Article\ArticleId;
 use App\Core\Domain\Models\CoAuthor\CoAuthor;
@@ -52,7 +54,16 @@ class SqlCoAuthorRepository implements CoAuthorRepositoryInterface
         $rows = DB::table('coauthors')->where('article_id', $article_id->toString())->get();
 
         foreach ($rows as $row) {
-            $coauthors[] = $this->constructFromRow($row);
+            $coauthors[] = new User(
+                new UserId($row->id),
+                $row->roles_id,
+                new Email($row->email),
+                $row->name,
+                $row->profile_photo_url,
+                $row->username,
+                $row->description,
+                $row->password
+            );;
         }
 
         return $coauthors;

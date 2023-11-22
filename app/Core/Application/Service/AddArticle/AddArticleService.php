@@ -37,7 +37,6 @@ class AddArticleService
             $request->getContent(),
             $url_slug,
             $request->getImageUrl(),
-            $request->getTags()
         );
 
         $this->article_repository->persist($article);

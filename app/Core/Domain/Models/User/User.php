@@ -143,6 +143,19 @@ class User
     /**
      * @return string
      */
+    public function getProfilePhotoUrl(): string
+    {
+        return $this->profile_photo_url;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return string
+     */
     public function getHashedPassword(): string
     {
         return $this->hashed_password;
