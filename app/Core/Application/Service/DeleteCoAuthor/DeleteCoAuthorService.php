@@ -42,6 +42,6 @@ class DeleteCoAuthorService
         }
 
         $co_author = $this->co_author_repository->find(new CoAuthorId($request->getCoAuthorId()));
-        $this->$this->co_author_repository->delete($article->getId());
+        $this->$this->co_author_repository->delete($co_author->getId());
     }
 }

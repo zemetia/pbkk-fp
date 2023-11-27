@@ -15,8 +15,10 @@ use App\Core\Application\Service\DeleteUser\DeleteUserRequest;
 use App\Core\Application\Service\DeleteUser\DeleteUserService;
 use App\Core\Application\Service\GetUserList\GetUserListRequest;
 use App\Core\Application\Service\GetUserList\GetUserListService;
+use App\Core\Application\Service\DeleteCoAuthor\FollowUserService;
 use App\Core\Application\Service\RegisterUser\RegisterUserRequest;
 use App\Core\Application\Service\RegisterUser\RegisterUserService;
+use App\Core\Application\Service\DeleteCoAuthor\UnfollowUserService;
 use App\Core\Application\Service\ChangePassword\ChangePasswordRequest;
 use App\Core\Application\Service\ChangePassword\ChangePasswordService;
 use App\Core\Application\Service\ForgotPassword\ForgotPasswordRequest;
@@ -95,13 +97,27 @@ class UserController extends Controller
 
     public function followUser($username, Request $request, FollowUserService $service): JsonResponse
     {
-        // pass
+        DB::beginTransaction();
+        try {
+            $service->execute($username, $request->get('account')->getUserId());
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        DB::commit();
         return $this->success("Berhasil Follow");
     }
 
     public function unfollowUser($username, Request $request, UnfollowUserService $service): JsonResponse
     {
-        // pass
+        DB::beginTransaction();
+        try {
+            $service->execute($username, $request->get('account')->getUserId());
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        DB::commit();
         return $this->success("Berhasil Unfollow");
     }
 
