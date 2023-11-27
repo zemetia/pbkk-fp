@@ -21,9 +21,6 @@ use App\Core\Application\Service\ChangePassword\ChangePasswordRequest;
 use App\Core\Application\Service\ChangePassword\ChangePasswordService;
 use App\Core\Application\Service\ForgotPassword\ForgotPasswordRequest;
 use App\Core\Application\Service\ForgotPassword\ForgotPasswordService;
-use App\Core\Application\Service\UserVerification\UserVerificationRequest;
-use App\Core\Application\Service\UserVerification\UserVerificationService;
-use App\Core\Application\Service\UserVerification\ReUserVerificationRequest;
 use App\Core\Application\Service\ForgotPassword\ChangePasswordRequest as ChangeForgotPasswordRequest;
 
 class UserController extends Controller
@@ -88,6 +85,24 @@ class UserController extends Controller
 
         $response = $service->execute($input);
         return $this->successWithData($response, "Berhasil Mendapatkan List User");
+    }
+
+    public function getUser($username, GetUserService $service): JsonResponse
+    {
+        $response = $service->execute($username);
+        return $this->successWithData($response, "Berhasil Mendapatkan User Page");
+    }
+
+    public function followUser($username, Request $request, FollowUserService $service): JsonResponse
+    {
+        // pass
+        return $this->success("Berhasil Follow");
+    }
+
+    public function unfollowUser($username, Request $request, UnfollowUserService $service): JsonResponse
+    {
+        // pass
+        return $this->success("Berhasil Unfollow");
     }
 
     public function deleteUser(Request $request, DeleteUserService $service): JsonResponse

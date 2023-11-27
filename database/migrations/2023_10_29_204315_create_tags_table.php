@@ -14,13 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tags', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('article_id')->index();
-            $table->string('tag_name');
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-
-            $table->foreign('article_id')->references('id')->on('articles');
+            $table->id();
+            $table->string('name')->index();
         });
     }
 

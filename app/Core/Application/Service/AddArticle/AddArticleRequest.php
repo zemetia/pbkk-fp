@@ -9,20 +9,18 @@ class AddArticleRequest
    private string $description;
    private string $content;
    private string $image_url;
-   private array $tags;
 
    /**
     * @param string $name
     */
 
-   public function __construct(string $visibility, string $title, string $description, string $content, string $image_url, array $tags)
+   public function __construct(string $visibility, string $title, string $description, string $content, string $image_url)
    {
       $this->visibility = $visibility;
       $this->title = $title;
       $this->description = $description;
       $this->content = $content;
       $this->image_url = $image_url;
-      $this->tags = $tags;
    }
 
    public function getVisibility(): string
@@ -48,10 +46,5 @@ class AddArticleRequest
    public function getImageUrl(): string
    {
       return $this->image_url;
-   }
-
-   public function getTags(): array
-   {
-      return $this->tags;
    }
 }
