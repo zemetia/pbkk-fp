@@ -64,8 +64,8 @@ Route::middleware(['iam'])->group(
         Route::post('/tag', [ArticleController::class, 'createTag']);
 
         //CoAuthor
-        Route::post('/{username}/{slug}/coauthor', [CoAuthorController::class, 'add'])->middleware('permission:coauthor.add');
-        Route::delete('/{username}/{slug}/coauthor', [CoAuthorController::class, 'delete'])->middleware('permission:coauthor.delete');
+        Route::post('/coauthor', [CoAuthorController::class, 'add'])->middleware('permission:coauthor.add');
+        Route::delete('/coauthor', [CoAuthorController::class, 'delete'])->middleware('permission:coauthor.delete');
 
         //Role
         Route::get('/roles', [RoleController::class, 'getRoleList'])->middleware('permission:roles.index');
