@@ -2,6 +2,7 @@
 
 namespace App\Core\Application\Service\CreateTag;
 
+use App\Core\Domain\Models\Article\ArticleId;
 use Exception;
 use App\Core\Domain\Models\Tag\Tag;
 use App\Core\Domain\Models\Role\Role;
@@ -29,10 +30,9 @@ class CreateTagService
      */
     public function execute(CreateTagRequest $request, UserId $user_id)
     {
-
-
-        $id = $this->role_repository->findLargestId();
-        $role = Role::create($request->getName(), ++$id);
-        $this->role_repository->persist($role);
+        $this->tag_repository->persist(
+            $request->getTag(),
+            new ArticleId($request->getArticleId())
+        );
     }
 }
