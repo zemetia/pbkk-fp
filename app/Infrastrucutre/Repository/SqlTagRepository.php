@@ -4,40 +4,50 @@ namespace App\Infrastrucutre\Repository;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
-use App\Core\Domain\Models\User\UserId;
 use App\Core\Domain\Models\Tag\Tag;
 use App\Core\Domain\Models\Tag\TagId;
+use App\Core\Domain\Models\User\UserId;
+use App\Core\Domain\Models\Tag\TagToArticle;
+use App\Core\Domain\Models\Article\ArticleId;
+use App\Core\Domain\Models\Tag\TagToArticleId;
 use App\Core\Domain\Models\Tag\TagVisibility;
 use App\Core\Domain\Repository\TagRepositoryInterface;
 
 class SqlTagRepository implements TagRepositoryInterface
 {
-    public function persist(Tag $articles): void
+    public function persist(string $tag, ArticleId $articleId): void
     {
-        DB::table('articles')->upsert([
-            'id' => $articles->getId(),
-            'url' => $articles->getUrl(),
-            'title' => $articles->getTitle(),
-            'content' => $articles->getContent(),
-            'image_url' => $articles->getImageUrl(),
-            'author_id' => $articles->getAuthorId(),
-            'visibility' => $articles->getVisibility()->value,
-            'description' => $articles->getDescription(),
+        $existingTag = DB::table('tags')->where('name', $tag)->first();
+
+        if (!$existingTag) {
+            DB::table('tags')->updateOrInsert(
+                ['name' => $tag],
+            );
+        }
+
+        $existingTag = DB::table('tags')->where('name', $tag)->first();
+
+        $tag_to_article = TagToArticle::create($articleId, $existingTag->id);
+
+        DB::table('tag_to_articles')->upsert([
+            'id' => $tag_to_article->getId(),
+            'article_id' => $tag_to_article->getArticleId(),
+            'tag_id' => $tag_to_article->getTagId(),
         ], 'id');
     }
 
     /**
      * @throws Exception
      */
-    public function find(TagId $id): ?Tag
+    public function find(int $id): ?Tag
     {
-        $row = DB::table('articles')->where('id', $id->toString())->first();
+        $row = DB::table('articles')->where('id', $id)->first();
 
         if (!$row) {
             return null;
         }
 
-        return $this->constructFromRow($row);
+        return $this->constructTagFromRow($row);
     }
 
     /**
@@ -57,69 +67,101 @@ class SqlTagRepository implements TagRepositoryInterface
     /**
      * @throws Exception
      */
-    private function constructFromRow($row): Tag
+    private function constructTagFromRow($row): Tag
     {
         return new Tag(
-            new TagId($row->id),
-            new UserId($row->author_id),
-            TagVisibility::from($row->visibility),
-            $row->title,
-            $row->description,
-            $row->content,
-            $row->url,
-            $row->image_url,
-            $row->created_at,
-            $row->updated_at,
+            $row->id,
+            $row->name,
         );
     }
 
-    public function getWithPagination(int $page, int $per_page): array
+    private function constructTagToArticleFromRow($row): TagToArticle
     {
-        $rows = DB::table('articles')
-            ->paginate($per_page, ['*'], 'role_page', $page);
-        $articles = [];
-
-        foreach ($rows as $row) {
-            $articles[] = $this->constructFromRow($row);
-        }
-        return [
-            "data" => $articles,
-            "max_page" => ceil($rows->total() / $per_page)
-        ];
+        return new TagToArticle(
+            new TagToArticleId($row->id),
+            new ArticleId($row->article_id),
+            $row->tag_id
+        );
     }
 
-    public function getUserTagWithPagination(UserId $user_id, int $page, int $per_page): array
+    // public function getWithPagination(int $page, int $per_page): array
+    // {
+    //     $rows = DB::table('articles')
+    //         ->paginate($per_page, ['*'], 'role_page', $page);
+    //     $articles = [];
+
+    //     foreach ($rows as $row) {
+    //         $articles[] = $this->constructFromRow($row);
+    //     }
+    //     return [
+    //         "data" => $articles,
+    //         "max_page" => ceil($rows->total() / $per_page)
+    //     ];
+    // }
+
+    // public function getUserTagWithPagination(UserId $user_id, int $page, int $per_page): array
+    // {
+    //     $rows = DB::table('articles')->where('author_id', "=", $user_id->toString())
+    //         ->paginate($per_page, ['*'], 'role_page', $page);
+    //     $articles = [];
+
+    //     foreach ($rows as $row) {
+    //         $articles[] = $this->constructFromRow($row);
+    //     }
+    //     return [
+    //         "data" => $articles,
+    //         "max_page" => ceil($rows->total() / $per_page)
+    //     ];
+    // }
+
+    // public function getTaggedTagWithPagination(string $tag_name, int $page, int $per_page): array
+    // {
+    //     $rows = DB::table('articles')->join('tags', 'articles.id', "=", "tags.article_id")->where('tags.tag_name', '=', $tag_name)
+    //         ->paginate($per_page, ['*'], 'role_page', $page);
+    //     $articles = [];
+
+    //     foreach ($rows as $row) {
+    //         $articles[] = $this->constructFromRow($row);
+    //     }
+    //     return [
+    //         "data" => $articles,
+    //         "max_page" => ceil($rows->total() / $per_page)
+    //     ];
+    // }
+
+    public function getByArticleId(ArticleId $articleId): array
     {
-        $rows = DB::table('articles')->where('author_id', "=", $user_id->toString())
-            ->paginate($per_page, ['*'], 'role_page', $page);
-        $articles = [];
+        $rows = DB::table('tags')
+            ->join('tag_to_articles', 'tag_to_articles.tag_id', "=", "tags.id")
+            ->where('tag_to_articles.article_id', "=", $articleId->toString())
+            ->get();
 
         foreach ($rows as $row) {
-            $articles[] = $this->constructFromRow($row);
+            $tags[] = $this->constructTagFromRow($row);
         }
-        return [
-            "data" => $articles,
-            "max_page" => ceil($rows->total() / $per_page)
-        ];
+
+        return $tags;
     }
 
-    public function getTaggedTagWithPagination(string $tag_name, int $page, int $per_page): array
+    public function getAllUniqueTags(): array
     {
-        $rows = DB::table('articles')->join('tags', 'articles.id', "=", "tags.article_id")->where('tags.tag_name', '=', $tag_name)
-            ->paginate($per_page, ['*'], 'role_page', $page);
-        $articles = [];
+        $rows = DB::table('tags')->get();
+        $tags = [];
 
         foreach ($rows as $row) {
-            $articles[] = $this->constructFromRow($row);
+            $tags[] = $this->constructTagFromRow($row);
         }
-        return [
-            "data" => $articles,
-            "max_page" => ceil($rows->total() / $per_page)
-        ];
+
+        return $tags;
     }
 
-    public function delete(TagId $id): void
+    public function deleteTag(int $id): void
     {
-        DB::table('articles')->where('id', $id->toString())->delete();
+        DB::table('tags')->where('id', $id)->delete();
+    }
+
+    public function deleteTagToArticle(TagToArticleId $id): void
+    {
+        DB::table('tag_to_articles')->where('id', $id->toString())->delete();
     }
 }

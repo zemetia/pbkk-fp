@@ -4,8 +4,9 @@ namespace App\Core\Domain\Repository;
 
 use App\Core\Domain\Models\Tag\Tag;
 use App\Core\Domain\Models\Tag\TagId;
-use App\Core\Domain\Models\Article\ArticleId;
 use App\Core\Domain\Models\Tag\TagToArticle;
+use App\Core\Domain\Models\Article\ArticleId;
+use App\Core\Domain\Models\Tag\TagToArticleId;
 
 interface TagRepositoryInterface
 {
@@ -16,9 +17,9 @@ interface TagRepositoryInterface
 
     public function persist(string $tag, ArticleId $articleId): void;
 
-    public function delete(Tag $tag): void;
+    public function deleteTag(int $tag): void;
 
-    public function deleteTagToArticle(TagToArticle $toa): void;
+    public function deleteTagToArticle(TagToArticleId $id): void;
 
     public function getAllUniqueTags(): array;
 

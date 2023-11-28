@@ -28,18 +28,18 @@ class GetUserListService
      */
     public function execute(GetUserListRequest $request)
     {
-        $rows = DB::table('user')->leftJoin('role', 'user.role_id', '=', 'role.id');
+        $rows = DB::table('users')->leftJoin('roles', 'users.roles_id', '=', 'roles.id');
 
         if ($request->getFilter())
-            $rows->whereIn('role.name', $request->getFilter());
-            // foreach ($request->getFilter() as $filter)
-            //     $rows->where('role.name', '=', $filter);
-        if($request->getSearch())
-            $rows->where('user.name', 'like', '%'.$request->getSearch().'%');
+            $rows->whereIn('roles.name', $request->getFilter());
+        // foreach ($request->getFilter() as $filter)
+        //     $rows->where('role.name', '=', $filter);
+        if ($request->getSearch())
+            $rows->where('users.name', 'like', '%' . $request->getSearch() . '%');
         if ($request->getSort())
             $rows->orderBy($request->getSort(), $request->getType());
 
-        $rows = $rows->paginate($request->getPerPage(), ['user.*'], 'user_page', $request->getPage());
+        $rows = $rows->paginate($request->getPerPage(), ['users.*'], 'user_page', $request->getPage());
 
         $users = [];
         foreach ($rows as $row) {
