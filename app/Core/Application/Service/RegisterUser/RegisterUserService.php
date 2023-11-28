@@ -2,6 +2,7 @@
 
 namespace App\Core\Application\Service\RegisterUser;
 
+use App\Core\Application\ImageUpload\ImageUpload;
 use Exception;
 use App\Core\Domain\Models\Email;
 use App\Exceptions\UserException;
@@ -36,12 +37,30 @@ class RegisterUserService
             UserException::throw("Mohon Periksa Email Anda Untuk Proses Verifikasi Akun", 1022, 404);
         }
 
+        $imageUrl = '';
+        if (!$request->getProfilePhoto()) {
+            $image = ImageUpload::create(
+                $request->getProfilePhoto(),
+                'photo_profile',
+                'profile'
+            );
+
+            $image->check();
+            $imageUrl = $image->upload($request->getName() . $request->getUsername() . $request->getEmail());
+        }
+
+
         $user = User::create(
             1,
             new Email($request->getEmail()),
             $request->getName(),
+            $imageUrl,
+            $request->getUsername(),
+            null,
             $request->getPassword()
         );
+
+
         $this->user_repository->persist($user);
     }
 }

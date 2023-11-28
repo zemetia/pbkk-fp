@@ -1,23 +1,20 @@
 <?php
 
-namespace App\Core\Application\Service\GetUserList;
+namespace App\Core\Application\Service\GetUser;
 
 use JsonSerializable;
 use App\Core\Domain\Models\User\User;
 
-class GetUserListResponse implements JsonSerializable
+class GetUserResponse implements JsonSerializable
 {
     private User $user;
-    private string $role;
 
     /**
      * @param User $user
-     * @param string $role
      */
-    public function __construct(User $user, string $role)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->role = $role;
     }
 
     public function jsonSerialize(): array
@@ -25,8 +22,7 @@ class GetUserListResponse implements JsonSerializable
         return [
             'id' => $this->user->getId()->toString(),
             'name' => $this->user->getName(),
-            'email' => $this->user->getEmail()->toString(),
-            'role' => $this->role,
+            'email' => $this->user->getEmail()->toString()
         ];
     }
 }

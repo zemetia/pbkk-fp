@@ -15,7 +15,7 @@ class User
     private string $name;
     private string $profile_photo_url;
     private string $username;
-    private string $description;
+    private ?string $description;
     private string $hashed_password;
     private static bool $verifier = false;
 
@@ -26,7 +26,7 @@ class User
      * @param string $name
      * @param string $hashed_password
      */
-    public function __construct(UserId $id, int $role_id, Email $email, string $name, string $profile_photo_url, string $username, string $description, string $hashed_password)
+    public function __construct(UserId $id, int $role_id, Email $email, string $name, string $profile_photo_url, string $username, ?string $description, string $hashed_password)
     {
         $this->id = $id;
         $this->role_id = $role_id;
@@ -86,7 +86,7 @@ class User
     /**
      * @throws Exception
      */
-    public static function create(int $role_id, Email $email, string $name, string $profile_photo_url, string $username, string $description, string $unhashed_password): self
+    public static function create(int $role_id, Email $email, string $name, string $profile_photo_url, string $username, ?string $description, string $unhashed_password): self
     {
         return new self(
             UserId::generate(),

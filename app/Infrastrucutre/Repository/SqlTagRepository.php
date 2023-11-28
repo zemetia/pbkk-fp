@@ -5,14 +5,14 @@ namespace App\Infrastrucutre\Repository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use App\Core\Domain\Models\User\UserId;
-use App\Core\Domain\Models\Article\Article;
-use App\Core\Domain\Models\Article\ArticleId;
-use App\Core\Domain\Models\Article\ArticleVisibility;
-use App\Core\Domain\Repository\ArticleRepositoryInterface;
+use App\Core\Domain\Models\Tag\Tag;
+use App\Core\Domain\Models\Tag\TagId;
+use App\Core\Domain\Models\Tag\TagVisibility;
+use App\Core\Domain\Repository\TagRepositoryInterface;
 
-class SqlArticleRepository implements ArticleRepositoryInterface
+class SqlTagRepository implements TagRepositoryInterface
 {
-    public function persist(Article $articles): void
+    public function persist(Tag $articles): void
     {
         DB::table('articles')->upsert([
             'id' => $articles->getId(),
@@ -29,7 +29,7 @@ class SqlArticleRepository implements ArticleRepositoryInterface
     /**
      * @throws Exception
      */
-    public function find(ArticleId $id): ?Article
+    public function find(TagId $id): ?Tag
     {
         $row = DB::table('articles')->where('id', $id->toString())->first();
 
@@ -57,12 +57,12 @@ class SqlArticleRepository implements ArticleRepositoryInterface
     /**
      * @throws Exception
      */
-    private function constructFromRow($row): Article
+    private function constructFromRow($row): Tag
     {
-        return new Article(
-            new ArticleId($row->id),
+        return new Tag(
+            new TagId($row->id),
             new UserId($row->author_id),
-            ArticleVisibility::from($row->visibility),
+            TagVisibility::from($row->visibility),
             $row->title,
             $row->description,
             $row->content,
@@ -88,7 +88,7 @@ class SqlArticleRepository implements ArticleRepositoryInterface
         ];
     }
 
-    public function getUserArticleWithPagination(UserId $user_id, int $page, int $per_page): array
+    public function getUserTagWithPagination(UserId $user_id, int $page, int $per_page): array
     {
         $rows = DB::table('articles')->where('author_id', "=", $user_id->toString())
             ->paginate($per_page, ['*'], 'role_page', $page);
@@ -103,7 +103,7 @@ class SqlArticleRepository implements ArticleRepositoryInterface
         ];
     }
 
-    public function getTaggedArticleWithPagination(string $tag_name, int $page, int $per_page): array
+    public function getTaggedTagWithPagination(string $tag_name, int $page, int $per_page): array
     {
         $rows = DB::table('articles')->join('tags', 'articles.id', "=", "tags.article_id")->where('tags.tag_name', '=', $tag_name)
             ->paginate($per_page, ['*'], 'role_page', $page);
@@ -118,7 +118,7 @@ class SqlArticleRepository implements ArticleRepositoryInterface
         ];
     }
 
-    public function delete(ArticleId $id): void
+    public function delete(TagId $id): void
     {
         DB::table('articles')->where('id', $id->toString())->delete();
     }

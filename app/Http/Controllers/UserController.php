@@ -9,6 +9,7 @@ use App\Core\Domain\Models\Email;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Core\Application\Service\Me\MeService;
+use App\Core\Application\Service\GetUser\GetUserService;
 use App\Core\Application\Service\LoginUser\LoginUserRequest;
 use App\Core\Application\Service\LoginUser\LoginUserService;
 use App\Core\Application\Service\DeleteUser\DeleteUserRequest;
@@ -39,6 +40,9 @@ class UserController extends Controller
             $request->input('email'),
             $request->input('name'),
             $request->input('password'),
+            $request->input('username'),
+            $request->file('photo'),
+
         );
 
         DB::beginTransaction();
