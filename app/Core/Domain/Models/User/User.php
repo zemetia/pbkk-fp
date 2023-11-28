@@ -148,7 +148,7 @@ class User
         return $this->profile_photo_url;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
