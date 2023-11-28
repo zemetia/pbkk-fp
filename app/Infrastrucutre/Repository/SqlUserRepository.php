@@ -39,6 +39,20 @@ class SqlUserRepository implements UserRepositoryInterface
     /**
      * @throws Exception
      */
+    public function findByUsername(string $username): ?User
+    {
+        $row = DB::table('users')->where('username', $username)->first();
+
+        if (!$row) {
+            return null;
+        }
+
+        return $this->constructFromRows([$row])[0];
+    }
+
+    /**
+     * @throws Exception
+     */
     public function findByEmail(Email $email): ?User
     {
         $row = DB::table('users')->where('email', $email->toString())->first();
