@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('name', 128);
             $table->string('email')->index();
             $table->string('username')->unique();
-            $table->string('password', 64);
+            $table->string('password', 128);
+            $table->string('profile_photo_url', 128)->nullable();
+            $table->string('description')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 

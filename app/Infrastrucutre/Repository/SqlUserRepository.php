@@ -19,7 +19,7 @@ class SqlUserRepository implements UserRepositoryInterface
             'email' => $users->getEmail()->toString(),
             'name' => $users->getName(),
             'username' => $users->getUsername(),
-            'password' => $users->getHashedPassword()
+            'password' => $users->getHashedPassword(),
         ], 'id');
     }
 
@@ -91,7 +91,7 @@ class SqlUserRepository implements UserRepositoryInterface
                 $row->roles_id,
                 new Email($row->email),
                 $row->name,
-                $row->profile_photo_url,
+                $row->profile_photo_url ?? '',
                 $row->username,
                 $row->description,
                 $row->password
