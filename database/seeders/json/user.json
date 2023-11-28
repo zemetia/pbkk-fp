@@ -3,12 +3,14 @@
         "name": "ADMIN TESTING",
         "role_id": 2,
         "email": "admin@testing.com",
+        "username": "test_admin",
         "password": "Testing@2023"
     },
     {
         "name": "USER TESTING",
         "role_id": 1,
         "email": "user@testing.com",
+        "username": "test_user",
         "password": "Testing@2023"
     }
 ]
