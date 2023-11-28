@@ -42,7 +42,6 @@ class UserController extends Controller
             $request->input('password'),
             $request->input('username'),
             $request->file('photo'),
-
         );
 
         DB::beginTransaction();

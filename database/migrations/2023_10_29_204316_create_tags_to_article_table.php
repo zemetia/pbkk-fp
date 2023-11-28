@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('tag_to_articles', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('article_id')->index();
-            $table->string('tag_id')->index();
+            $table->integer('tag_id')->index();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 

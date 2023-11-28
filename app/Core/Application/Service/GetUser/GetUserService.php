@@ -6,19 +6,24 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use App\Core\Domain\Models\User\User;
 use App\Core\Application\Service\PaginationResponse;
+use App\Core\Domain\Repository\FollowRepositoryInterface;
 use App\Core\Domain\Repository\RoleRepositoryInterface;
 use App\Core\Domain\Repository\UserRepositoryInterface;
+use App\Exceptions\UserException;
 
 class GetUserService
 {
     private UserRepositoryInterface $user_repository;
+    private FollowRepositoryInterface $follow_repository;
 
     /**
      * @param UserRepositoryInterface $user_repository
+     * @param FollowRepositoryInterface $follow_repository
      */
-    public function __construct(UserRepositoryInterface $user_repository)
+    public function __construct(UserRepositoryInterface $user_repository, FollowRepositoryInterface $follow_repository)
     {
         $this->user_repository = $user_repository;
+        $this->follow_repository = $follow_repository;
     }
 
     /**
@@ -27,8 +32,12 @@ class GetUserService
     public function execute(string $username)
     {
         $user = $this->user_repository->findByUsername($username);
-        // $follower
-        // $following
+        if (!$user) {
+            UserException::throw('User tidak ditemukan!', 1004, 404);
+        }
+
+        $follower = $this->follow_repository->getCountByUserToId($user->getId());
+        $following = $this->follow_repository->getCountByUserFromId($user->getId());
         // $authored
         // $co_authored
 
