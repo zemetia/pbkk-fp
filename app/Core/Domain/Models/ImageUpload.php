@@ -34,7 +34,7 @@ class ImageUpload
             "image/jpeg",
             "image/png"
         ];
-        $this->file_size_limit = 1048576;
+        $this->file_size_limit = 5048576;
 
         $this->check();
     }
@@ -59,7 +59,7 @@ class ImageUpload
         )
             UserException::throw("Tipe File {$this->name} Invalid", 2000);
         if ($this->uploaded_file->getSize() > 1048576)
-            UserException::throw("{$this->name} Harus Dibawah 1Mb", 2000);
+            UserException::throw("{$this->name} Harus Dibawah 5Mb", 2000);
     }
 
     /**
