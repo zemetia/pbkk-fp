@@ -18,6 +18,7 @@ class SqlUserRepository implements UserRepositoryInterface
             'roles_id' => $users->getRoleId(),
             'email' => $users->getEmail()->toString(),
             'name' => $users->getName(),
+            'username' => $users->getUsername(),
             'password' => $users->getHashedPassword()
         ], 'id');
     }
