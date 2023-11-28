@@ -15,13 +15,8 @@ class SqlFollowRepository implements FollowRepositoryInterface
     {
         DB::table('articles')->upsert([
             'id' => $articles->getId(),
-            'url' => $articles->getUrl(),
-            'title' => $articles->getTitle(),
-            'content' => $articles->getContent(),
-            'image_url' => $articles->getImageUrl(),
-            'author_id' => $articles->getAuthorId(),
-            'visibility' => $articles->getVisibility()->value,
-            'description' => $articles->getDescription(),
+            'from_id' => $articles->getFromId(),
+            'to_id' => $articles->getToId(),
         ], 'id');
     }
 
@@ -30,7 +25,7 @@ class SqlFollowRepository implements FollowRepositoryInterface
      */
     public function find(FollowId $id): ?Follow
     {
-        $row = DB::table('articles')->where('id', $id->toString())->first();
+        $row = DB::table('follows')->where('id', $id->toString())->first();
 
         if (!$row) {
             return null;
@@ -39,18 +34,28 @@ class SqlFollowRepository implements FollowRepositoryInterface
         return $this->constructFromRow($row);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function findLargestId(): ?int
+    public function findByUsers(UserId $user, UserId $to): ?Follow
     {
-        $row = DB::table('articles')->max('id');
+        $row = DB::table('follows')->wheres([
+            ['from_id', '=', $user],
+            ['to_id', '=', $to]
+        ])->first();
 
         if (!$row) {
             return null;
         }
 
-        return $row;
+        return $this->constructFromRow($row);
+    }
+
+    public function getCountByUserFromId(UserId $user_from_id): int
+    {
+        return DB::table('follows')->where('from_id', $user_from_id->toString())->count();
+    }
+
+    public function getCountByUserToId(UserId $user_to_id): int
+    {
+        return DB::table('follows')->where('to_id', $user_to_id->toString())->count();
     }
 
     /**
@@ -60,15 +65,8 @@ class SqlFollowRepository implements FollowRepositoryInterface
     {
         return new Follow(
             new FollowId($row->id),
-            new UserId($row->author_id),
-            FollowVisibility::from($row->visibility),
-            $row->title,
-            $row->description,
-            $row->content,
-            $row->url,
-            $row->image_url,
-            $row->created_at,
-            $row->updated_at,
+            new UserId($row->from_id),
+            new UserId($row->to_id),
         );
     }
 
@@ -119,6 +117,6 @@ class SqlFollowRepository implements FollowRepositoryInterface
 
     public function delete(FollowId $id): void
     {
-        DB::table('articles')->where('id', $id->toString())->delete();
+        DB::table('follows')->where('id', $id->toString())->delete();
     }
 }

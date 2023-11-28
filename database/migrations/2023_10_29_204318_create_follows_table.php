@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('coauthors', function (Blueprint $table) {
+        Schema::create('follows', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('from_id')->index();
             $table->uuid('to_id')->index();
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('coauthors');
+        Schema::dropIfExists('follows');
     }
 };
