@@ -18,8 +18,8 @@ Route::get('hello', function () {
 // User
 Route::post('/create_user', [UserController::class, 'createUser']);
 Route::post('/login_user', [UserController::class, 'loginUser']);
-Route::get('/{username}', [UserController::class, 'getUser']);
-Route::get('/{username}/{slug}', [ArticleController::class, 'getArticle']);
+Route::get('user/{username}', [UserController::class, 'getUser']);
+Route::get('user/{username}/{slug}', [ArticleController::class, 'getArticle']);
 
 // Region
 Route::get('/province', [RegionController::class, 'getProvince']);
@@ -49,16 +49,16 @@ Route::middleware(['iam'])->group(
         Route::get('/me', [UserController::class, 'me']);
         Route::post('/change_password', [UserController::class, 'changePassword']);
 
-        Route::post('/{username}/follow', [UserController::class, 'followUser']);
-        Route::delete('/{username}/follow', [UserController::class, 'unfollowUser']);
+        Route::post('user/{username}/follow', [UserController::class, 'followUser']);
+        Route::delete('user/{username}/follow', [UserController::class, 'unfollowUser']);
 
         Route::get('/users', [UserController::class, 'getUserList'])->middleware('permission:users.index');
         Route::delete('/users', [UserController::class, 'deleteUser'])->middleware('permission:users.delete');
 
         //Article
         Route::post('/articles', [ArticleController::class, 'createArticle'])->middleware('permission:articles.store');
-        Route::delete('/{username}/{slug}', [ArticleController::class, 'deleteArticle'])->middleware('permission:articles.delete');
-        Route::put('/{username}/{slug}', [ArticleController::class, 'updateArticle'])->middleware('permission:articles.update');
+        Route::delete('user/{username}/{slug}', [ArticleController::class, 'deleteArticle'])->middleware('permission:articles.delete');
+        Route::put('user/{username}/{slug}', [ArticleController::class, 'updateArticle'])->middleware('permission:articles.update');
 
         //Tags
         Route::post('/tag', [ArticleController::class, 'createTag']);
