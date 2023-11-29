@@ -48,8 +48,7 @@ class SqlArticleRepository implements ArticleRepositoryInterface
         }
 
 
-
-        $row = DB::table('articles')->where('id', $author->id)->where('url', $slug)->first();
+        $row = DB::table('articles')->where('author_id', $author->id)->where('url', $slug)->first();
 
         if (!$row) {
             return null;

@@ -5,13 +5,13 @@ namespace App\Core\Application\Service\GetArticle;
 class GetArticleRequest
 {
     private string $username;
-    private int $slug;
+    private string $slug;
 
     /**
      * @param string $username
-     * @param int $slug
+     * @param string $slug
      */
-    public function __construct(string $username, int $slug)
+    public function __construct(string $username, string $slug)
     {
         $this->username = $username;
         $this->slug = $slug;
@@ -28,7 +28,7 @@ class GetArticleRequest
     /**
      * @return int
      */
-    public function getSlug(): int
+    public function getSlug(): string
     {
         return $this->slug;
     }
