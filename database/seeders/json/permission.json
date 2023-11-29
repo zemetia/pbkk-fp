@@ -50,5 +50,17 @@
     {
         "id": 13,
         "name": "roles.detail"
+    },
+    {
+        "id": 14,
+        "name": "articles.store"
+    },
+    {
+        "id": 15,
+        "name": "articles.delete"
+    },
+    {
+        "id": 16,
+        "name": "articles.update"
     }
 ]

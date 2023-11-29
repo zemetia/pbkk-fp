@@ -4,6 +4,14 @@ body {
     padding: 0;
 }
 
+h2.swal2-title {
+    color: #6b6b6b;
+}
+
+.swal2-timer-progress-bar {
+    background-color: #333;
+}
+
 .navbar {
     height: 61px;
     box-shadow: 1px 1px 7px 3px #cecece;

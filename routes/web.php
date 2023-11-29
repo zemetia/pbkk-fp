@@ -18,21 +18,29 @@ Route::get('/', function () {
 });
 
 // Route::get('/dashboard', function () {
-//     return view('dashboard.index');
-// });
+//                 return view('dashboard.index');
+//             })->middleware('iam');
 
-// Route::get('/dashboard/articles', function () {
-//     return view('dashboard.articles');
-// });
+Route::middleware('iam')->group(
+    function () {
+        Route::get('/dashboard', function () {
+            return view('dashboard.index');
+        });
+        
+        Route::get('/dashboard/articles', function () {
+            return view('dashboard.articles');
+        });
+        
+        Route::get('/dashboard/articles/write', function () {
+            return view('dashboard.write');
+        });
+    }
+);
 
-// Route::get('/dashboard/articles/write', function () {
-//     return view('dashboard.write');
-// });
+Route::get('/login', function () {
+    return view('login');
+});
 
-// Route::get('/login', function () {
-//     return view('login');
-// });
-
-// Route::get('/register', function () {
-//     return view('register');
-// });
+Route::get('/register', function () {
+    return view('register');
+});

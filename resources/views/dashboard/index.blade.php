@@ -60,5 +60,20 @@
         </div>
     </div>
 
+    
+    <script>
+    $.ajaxSetup({
+        headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+    });
+
+    // AJAX request to `/dashboard` can be made here
+    $.get('/api/test', function(data) {
+        console.log(data);
+    });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
 </body>
 </html>
