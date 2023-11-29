@@ -52,6 +52,7 @@ class SqlCoAuthorRepository implements CoAuthorRepositoryInterface
     public function getByArticleId(ArticleId $article_id): array
     {
         $rows = DB::table('coauthors')->where('article_id', $article_id->toString())->get();
+        $coauthors = [];
 
         foreach ($rows as $row) {
             $coauthors[] = new User(

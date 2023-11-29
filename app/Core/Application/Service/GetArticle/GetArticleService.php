@@ -33,12 +33,12 @@ class GetArticleService
 
     public function unpackAuthors(User $user): array
     {
-        return array([
+        return array(
             "name" => $user->getName(),
             "username" => $user->getUsername(),
             "photo" => $user->getProfilePhotoUrl(),
             "description" => $user->getDescription()
-        ]);
+        );
     }
 
     /**

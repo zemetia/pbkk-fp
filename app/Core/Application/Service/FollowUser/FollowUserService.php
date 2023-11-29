@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Application\Service\DeleteCoAuthor;
+namespace App\Core\Application\Service\FollowUser;
 
 use Exception;
 use App\Exceptions\UserException;

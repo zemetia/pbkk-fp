@@ -13,10 +13,10 @@ class SqlFollowRepository implements FollowRepositoryInterface
 {
     public function persist(Follow $articles): void
     {
-        DB::table('articles')->upsert([
-            'id' => $articles->getId(),
-            'from_id' => $articles->getFromId(),
-            'to_id' => $articles->getToId(),
+        DB::table('follows')->upsert([
+            'id' => $articles->getId()->toString(),
+            'from_id' => $articles->getFromId()->toString(),
+            'to_id' => $articles->getToId()->toString(),
         ], 'id');
     }
 
@@ -36,10 +36,8 @@ class SqlFollowRepository implements FollowRepositoryInterface
 
     public function findByUsers(UserId $user, UserId $to): ?Follow
     {
-        $row = DB::table('follows')->wheres([
-            ['from_id', '=', $user],
-            ['to_id', '=', $to]
-        ])->first();
+        $row = DB::table('follows')->where('from_id', '=', $user->toString())
+            ->where('to_id', '=', $to->toString())->first();
 
         if (!$row) {
             return null;
