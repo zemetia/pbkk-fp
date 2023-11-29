@@ -98,7 +98,7 @@ class ArticleController extends Controller
         );
 
         $response = $service->execute($input);
-        return $this->successWithData($response, "Berhasil Mendapatkan User Page");
+        return $this->successWithData($response, "Berhasil Mendapatkan Article Page");
     }
 
     public function createTag(Request $request, CreateTagService $service): JsonResponse

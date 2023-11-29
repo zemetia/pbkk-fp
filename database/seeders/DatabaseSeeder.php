@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Database\Seeders\VillageSeeder;
 use Database\Seeders\SubdistrictSeeder;
+use UserFactorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleHasPermissionSeeder::class,
             UserSeeder::class,
+            UserFactorySeeder::class,
         ]);
     }
 }
