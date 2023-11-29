@@ -2,13 +2,11 @@
 
 namespace App\Core\Application\Service\RegisterUser;
 
-use App\Core\Application\ImageUpload\ImageUpload;
 use Exception;
 use App\Core\Domain\Models\Email;
 use App\Exceptions\UserException;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use App\Core\Domain\Models\User\User;
+use App\Core\Domain\Models\ImageUpload;
 use App\Core\Application\Mail\AccountVerificationEmail;
 use App\Core\Domain\Repository\UserRepositoryInterface;
 use App\Core\Domain\Models\AccountVerification\AccountVerification;

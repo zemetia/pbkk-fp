@@ -20,7 +20,7 @@ class SqlArticleRepository implements ArticleRepositoryInterface
             'title' => $articles->getTitle(),
             'content' => $articles->getContent(),
             'image_url' => $articles->getImageUrl(),
-            'author_id' => $articles->getAuthorId(),
+            'author_id' => $articles->getAuthorId()->toString(),
             'visibility' => $articles->getVisibility()->value,
             'description' => $articles->getDescription(),
         ], 'id');
