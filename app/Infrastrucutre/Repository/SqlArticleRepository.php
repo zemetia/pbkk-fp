@@ -99,7 +99,16 @@ class SqlArticleRepository implements ArticleRepositoryInterface
         $articles = [];
 
         foreach ($rows as $row) {
-            $articles[] = $this->constructFromRow($row);
+            $articles[] = array([
+                "visibility" => $row->visibility,
+                "title" => $row->title,
+                "description" => $row->description,
+                "content" => $row->content,
+                "url" => $row->url,
+                "image_url" => $row->image_url,
+                "created_at" => $row->created_at,
+                "updated_at" => $row->updated_at,
+            ]);
         }
         return [
             "data" => $articles,
