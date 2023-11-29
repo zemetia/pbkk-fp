@@ -4,14 +4,14 @@ namespace App\Core\Application\Service\GetArticle;
 
 class GetArticleRequest
 {
-    private int $username;
+    private string $username;
     private int $slug;
 
     /**
-     * @param int $username
+     * @param string $username
      * @param int $slug
      */
-    public function __construct(int $username, int $slug)
+    public function __construct(string $username, int $slug)
     {
         $this->username = $username;
         $this->slug = $slug;
@@ -20,7 +20,7 @@ class GetArticleRequest
     /**
      * @return int
      */
-    public function getUsername(): int
+    public function getUsername(): string
     {
         return $this->username;
     }
