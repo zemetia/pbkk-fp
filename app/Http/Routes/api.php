@@ -58,7 +58,7 @@ Route::middleware(['iam'])->group(
         //Article
         Route::post('/articles', [ArticleController::class, 'createArticle'])->middleware('permission:articles.store');
         Route::delete('user/{username}/{slug}', [ArticleController::class, 'deleteArticle'])->middleware('permission:articles.delete');
-        Route::put('user/{username}/{slug}', [ArticleController::class, 'updateArticle'])->middleware('permission:articles.update');
+        Route::post('user/{username}/{slug}/update', [ArticleController::class, 'updateArticle'])->middleware('permission:articles.update');
 
         //Tags
         Route::post('/tag', [ArticleController::class, 'createTag']);

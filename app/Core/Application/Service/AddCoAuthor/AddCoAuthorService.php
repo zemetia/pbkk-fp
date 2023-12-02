@@ -39,7 +39,7 @@ class AddCoAuthorService
         }
 
         $is_coauthor = $this->co_author_repository->isUserCoAuthoredArticle($user_id, $article->getId());
-        if (!$is_coauthor || $user_id != $article->getAuthorId()) {
+        if (!$is_coauthor && $user_id != $article->getAuthorId()) {
             UserException::throw("User tidak dapat melakukan penambahan co-Author", 1006, 403);
         }
 
