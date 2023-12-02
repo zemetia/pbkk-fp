@@ -37,9 +37,9 @@ class DeleteArticleService
             UserException::throw("Artikel tidak ditemukan", 1006, 404);
         }
         $is_coauthor = $this->co_author_repository->isUserCoAuthoredArticle($user_id, $article->getId());
-        if (!$is_coauthor || $user_id != $article->getAuthorId()) {
-            UserException::throw("User tidak dapat melakukan delete", 1006, 403);
+        if (!$is_coauthor && $user_id != $article->getAuthorId()) {
+            UserException::throw("User tidak dapat melakukan delete " . ($is_coauthor ? 'yes' : 'no') . " or " . (($user_id == $article->getAuthorId()) ? 'yes' : 'no'), 1006, 403);
         }
-        $this->$this->article_repository->delete($article->getId());
+        $this->article_repository->delete($article->getId());
     }
 }

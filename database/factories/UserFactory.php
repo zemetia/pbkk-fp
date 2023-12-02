@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'roles_id' => $this->faker->numberBetween(1, 2),
             'email' => $this->faker->unique()->safeEmail,
             'name' => $this->faker->name,
-            'profile_photo_url' => $this->faker->imageUrl(),
+            'profile_photo_url' => $this->faker->imageUrl(500, 500),
             'username' => $this->faker->unique()->userName,
             'description' => $this->faker->optional()->text,
             'password' => Hash::make('password'), // Use a default password or generate a secure one

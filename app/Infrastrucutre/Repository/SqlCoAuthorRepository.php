@@ -72,9 +72,9 @@ class SqlCoAuthorRepository implements CoAuthorRepositoryInterface
 
     public function isUserCoAuthoredArticle(UserId $user_id, ArticleId $article_id): bool
     {
-        $userHasCoauthoredArticle = DB::table('coauthor')
-            ->where('coauthor_id', $user_id)
-            ->where('article_id', $article_id)
+        $userHasCoauthoredArticle = DB::table('coauthors')
+            ->where('coauthor_id', $user_id->toString())
+            ->where('article_id', $article_id->toString())
             ->exists();
 
         return $userHasCoauthoredArticle;
