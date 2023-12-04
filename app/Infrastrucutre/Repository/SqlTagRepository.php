@@ -30,8 +30,8 @@ class SqlTagRepository implements TagRepositoryInterface
         $tag_to_article = TagToArticle::create($articleId, $existingTag->id);
 
         DB::table('tag_to_articles')->upsert([
-            'id' => $tag_to_article->getId(),
-            'article_id' => $tag_to_article->getArticleId(),
+            'id' => $tag_to_article->getId()->toString(),
+            'article_id' => $tag_to_article->getArticleId()->toString(),
             'tag_id' => $tag_to_article->getTagId(),
         ], 'id');
     }

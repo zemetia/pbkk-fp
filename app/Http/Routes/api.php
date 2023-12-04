@@ -19,7 +19,10 @@ Route::get('hello', function () {
 Route::post('/create_user', [UserController::class, 'createUser']);
 Route::post('/login_user', [UserController::class, 'loginUser']);
 Route::get('user/{username}', [UserController::class, 'getUser']);
+
+// Article
 Route::get('user/{username}/{slug}', [ArticleController::class, 'getArticle']);
+Route::get('/articles/q', [ArticleController::class, 'getArticleList']);
 
 // Region
 Route::get('/province', [RegionController::class, 'getProvince']);
@@ -61,7 +64,7 @@ Route::middleware(['iam'])->group(
         Route::post('user/{username}/{slug}/update', [ArticleController::class, 'updateArticle'])->middleware('permission:articles.update');
 
         //Tags
-        Route::post('/tag', [ArticleController::class, 'createTag']);
+        Route::post('/tag', [ArticleContagtroller::class, 'createTag']);
 
         //CoAuthor
         Route::post('/coauthor', [CoAuthorController::class, 'add'])->middleware('permission:coauthor.add');

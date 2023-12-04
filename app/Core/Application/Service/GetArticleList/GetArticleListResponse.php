@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Core\Application\Service\GetArticle;
+namespace App\Core\Application\Service\GetArticleList;
 
 use JsonSerializable;
 use App\Core\Domain\Models\Article\Article;
 
-class GetArticleResponse implements JsonSerializable
+class GetArticleListResponse implements JsonSerializable
 {
     private Article $article;
     private array $author;
@@ -29,8 +29,9 @@ class GetArticleResponse implements JsonSerializable
             'id' => $this->article->getId()->toString(),
             'title' => $this->article->getTitle(),
             'description' => $this->article->getDescription(),
-            'content' => $this->article->getContent(),
             'image_url' => $this->article->getImageUrl(),
+            'url' => $this->article->getUrl(),
+            'created_at' => $this->article->getCreatedAt(),
 
             'author' => $this->author,
             'co_authors' => $this->coauthors

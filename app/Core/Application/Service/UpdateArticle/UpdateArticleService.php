@@ -41,16 +41,19 @@ class UpdateArticleService
             UserException::throw("User tidak dapat melakukan update", 1006, 403);
         }
 
-        $article = Article::create(
-            $user_id,
+        $article_update = new Article(
+            $article->getId(),
+            $article->getAuthorId(),
             ArticleVisibility::from($request->getVisibility()),
             $request->getTitle(),
             $request->getDescription(),
             $request->getContent(),
             $article->getUrl(),
             $request->getImageUrl(),
+            $article->getCreatedAt(),
+            $article->getUpdatedAt()
         );
 
-        $this->article_repository->persist($article);
+        $this->article_repository->persist($article_update);
     }
 }
