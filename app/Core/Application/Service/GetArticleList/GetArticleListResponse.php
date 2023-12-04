@@ -32,6 +32,7 @@ class GetArticleListResponse implements JsonSerializable
             'image_url' => $this->article->getImageUrl(),
             'url' => $this->article->getUrl(),
             'created_at' => $this->article->getCreatedAt(),
+            'visibility' => $this->article->getVisibility()->value,
 
             'author' => $this->author,
             'co_authors' => $this->coauthors
