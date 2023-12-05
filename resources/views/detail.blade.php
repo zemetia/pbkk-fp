@@ -22,8 +22,8 @@
     <div class="navbar bg-white mx-auto max-w-full">
         <div class="flex h-full items-center justify-between px-8 w-4/5 mx-auto">
             <h1 class="text-2xl font-bold">
-                <a href="/">
-                LOGO
+            <a href="/">
+                Home
                 </a>
             </h1>
             <div class="font-semibold">
@@ -84,11 +84,11 @@
                         const dateOnly = date.toISOString().split('T')[0];
                         articleHTML += '<h3 class="text-sm text-gray-500 my-5">' + data.data.author.name + ' - ' + dateOnly +'</h3>';
                         articleHTML += '<div class="aspect-video border-2 border-red relative overflow-hidden">';
-                        articleHTML += '<img src="https://i.pinimg.com/736x/47/71/a0/4771a0fcd92112e2782fdc08d5a9558e.jpg" alt="Caelus" class="w-full absolute">';
+                        articleHTML += '<img src="'+ data.data.image_url +'" alt="'+ data.data.title +'" class="w-full absolute">';
                         articleHTML += '</div>';
 
                         articleHTML += '<div class="mt-5">';
-                        articleHTML += 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium magnam qui minus odit repudiandae temporibus hic animi atque vel aliquam! Quos tempore aliquid sapiente sed sint, consequuntur unde. Harum, illum.';
+                        articleHTML += data.data.content;
                         articleHTML += '</div>';
                         articleHTML += '</div>';
 

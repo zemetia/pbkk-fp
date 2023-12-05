@@ -27,7 +27,7 @@
                 </a>
             </h1>
 
-            <form action="/q/" method="get" class="flex items-center">
+            <form action="/q?search=" method="get" class="flex items-center">
                 <!-- @csrf -->
                 <input type="text" placeholder="Search" class="border-2 p-1 text-sm align-middle mt-4 px-2 rounded-lg" name="search" />
                 <input type="submit" class="p-1 border-2 mt-4 h-[30px] leading-[0px]" value=">">
@@ -81,8 +81,20 @@
                     page = window.location.pathname.split('/')[2];
                 }
 
+                // Get the search query from the current URL
+                const queryString = window.location.search;
+
+                // Create a URLSearchParams object from the query string
+                const searchParams = new URLSearchParams(queryString);
+
+                // Get the value of the 'search' parameter
+                const searchValue = searchParams.get('search');
+
+                // Output the value to the console
+                console.log(searchValue);
+
                 $.ajax({
-                    url: '/api/articles/q?page='+ page +'&per_page=5',
+                    url: '/api/articles/q?page='+ page +'&per_page=5&search=' + searchValue,
                     method: 'GET',
                     success: function(data) {
                         console.log(data);

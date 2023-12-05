@@ -25,7 +25,7 @@
         <div class="flex h-full items-center justify-between px-8 w-4/5 mx-auto">
             <h1 class="text-2xl font-bold">
                 <a href="/">
-                    LOGO
+                    Home
                 </a>
             </h1>
             <div class="font-semibold">
@@ -53,10 +53,25 @@
                         <img src="{{ asset('images/icons/articles.png') }}" class="absolute w-[20px]" alt="articles">
                         <a id="linkArticle" href="" class="pl-8">Articles</a>
                     </li>
-                    <li class="mt-5 pl-5">
+                    <li id="logout" class="mt-5 pl-5">
                         <img src="{{ asset('images/icons/logout.png') }}" class="absolute w-[20px]" alt="logout">
-                        <a href="/logout" class="pl-8">Logout</a>
+                        <button id="logoutButton" class="pl-8">Logout</button>
                     </li>
+                    <script>
+                        $(document).ready(function() {
+                            $('#logoutButton').click(function() {
+                            // Remove the bearer token
+                            $.ajaxSetup({
+                                beforeSend: function(xhr) {
+                                    xhr.setRequestHeader('Authorization', null);
+                                }
+                            });
+                            localStorage.removeItem('accessToken');
+                            // Redirect the user to the login page or perform any other necessary actions
+                            window.location.href = '/login';
+                            });
+                        });
+                    </script>
                 </ul>
             </div>
         </div>
@@ -89,8 +104,8 @@
                     } );
                 </script>
 
-                <label for="image">Upload Image</label>
-                <input type="file" name="file" id="file" class="w-full">
+                <label for="image">Image URL</label>
+                <input type="text" class="w-full p-1 border border-[#cbccd3] rounded-sm mb-3" name="image" id="image" placeholder="url/1.png">
 
                 <label for="visibility">Visbility</label>
                 <select id="visibility" name="visibility">
@@ -119,7 +134,7 @@
                 formData.append('title', $('#title').val());
                 formData.append('description', $('#description').val());
                 formData.append('content', $('#editor').val());
-                formData.append('image_url', 'http://127.0.0.1:8000');
+                formData.append('image_url', $('#image').val());
 
                 $.ajax({
                     url: '/api/user/' + username + '/' + url_id + '/update',

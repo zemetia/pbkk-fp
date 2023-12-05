@@ -29,6 +29,10 @@ Route::get('/u/{username}/articles', function () {
     return view('dashboard.articles');
 });
 
+Route::get('/q', function () {
+    return view('search');
+});
+
 Route::get('/{username}/{slug}/edit', function () {
     return view('dashboard.edit');
 });

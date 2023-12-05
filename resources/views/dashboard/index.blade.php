@@ -33,7 +33,8 @@
     <div class="navbar bg-white mx-auto max-w-full">
         <div class="flex h-full items-center justify-between px-8 w-4/5 mx-auto">
             <h1 class="text-2xl font-bold">
-                LOGO
+                <a href="/">
+                Home</a>
             </h1>
             <div class="font-semibold">
                 <a id="mainProfile" href="" class="px-1"><img src="{{ asset('../images/icons/profile.png') }}"></a>
@@ -62,8 +63,23 @@
                     </li>
                     <li id="logout" class="mt-5 pl-5">
                         <img src="{{ asset('images/icons/logout.png') }}" class="absolute w-[20px]" alt="logout">
-                        <a href="/logout" class="pl-8">Logout</a>
+                        <button id="logoutButton" class="pl-8">Logout</button>
                     </li>
+                    <script>
+                        $(document).ready(function() {
+                            $('#logoutButton').click(function() {
+                            // Remove the bearer token
+                            $.ajaxSetup({
+                                beforeSend: function(xhr) {
+                                    xhr.setRequestHeader('Authorization', null);
+                                }
+                            });
+                            localStorage.removeItem('accessToken');
+                            // Redirect the user to the login page or perform any other necessary actions
+                            window.location.href = '/login';
+                            });
+                        });
+                    </script>
                 </ul>
             </div>
         </div>
