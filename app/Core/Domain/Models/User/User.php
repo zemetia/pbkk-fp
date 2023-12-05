@@ -5,10 +5,16 @@ namespace App\Core\Domain\Models\User;
 use Exception;
 use App\Core\Domain\Models\Email;
 use App\Exceptions\UserException;
+use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Model;
 
 class User
 {
+    use HasFactory;
+
     private UserId $id;
     private int $role_id;
     private Email $email;
@@ -26,6 +32,8 @@ class User
      * @param string $name
      * @param string $hashed_password
      */
+
+
     public function __construct(UserId $id, int $role_id, Email $email, string $name, string $profile_photo_url, string $username, ?string $description, string $hashed_password)
     {
         $this->id = $id;

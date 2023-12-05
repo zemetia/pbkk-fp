@@ -74,6 +74,25 @@
                             title: "Signed in successfully"
                         });
                         localStorage.setItem('accessToken', response.data.token);
+                        
+                        $.ajax({
+                            url: '/api/me',
+                            type: 'GET',
+                            headers: {
+                                'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+                                // other headers if needed...
+                            },
+                            success: function(data) {
+                                console.log(data);
+                                return window.location.href = '/u/' + data.data.username;
+                            },
+                            error: function(xhr, status, error) {
+                                // Handle errors
+                                console.error(xhr.responseText);
+                                // return window.location.href = '/404';
+                            }
+                        });
+
                         // window.location.href = '/dashboard'; // Redirect to dashboard
                     },
                     error: function(error) {

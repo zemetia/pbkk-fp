@@ -16,6 +16,8 @@ use App\Core\Application\Service\DeleteArticle\DeleteArticleRequest;
 use App\Core\Application\Service\DeleteArticle\DeleteArticleService;
 use App\Core\Application\Service\UpdateArticle\UpdateArticleRequest;
 use App\Core\Application\Service\UpdateArticle\UpdateArticleService;
+use App\Core\Application\Service\GetArticleList\GetArticleListRequest;
+use App\Core\Application\Service\GetArticleList\GetArticleListService;
 
 class ArticleController extends Controller
 {
@@ -67,6 +69,22 @@ class ArticleController extends Controller
         return $this->success("Berhasil Menghapus Artikel");
     }
 
+    public function getArticleList(Request $request, GetArticleListService $service)
+    {
+        $input = new GetArticleListRequest(
+            $request->input('page'),
+            $request->input('per_page'),
+            $request->input('sort'),
+            $request->input('type'),
+            $request->input('tags'),
+            $request->input('search'),
+            $request->input('visibility')
+        );
+
+        $response = $service->execute($input);
+        return $this->successWithData($response, "Berhasil Mendapatkan List Article");
+    }
+
     public function updateArticle($username, $slug, Request $request, UpdateArticleService $service): JsonResponse
     {
         $input = new UpdateArticleRequest(
@@ -98,7 +116,7 @@ class ArticleController extends Controller
         );
 
         $response = $service->execute($input);
-        return $this->successWithData($response, "Berhasil Mendapatkan User Page");
+        return $this->successWithData($response, "Berhasil Mendapatkan Article Page");
     }
 
     public function createTag(Request $request, CreateTagService $service): JsonResponse

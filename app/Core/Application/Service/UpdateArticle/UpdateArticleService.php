@@ -37,20 +37,23 @@ class UpdateArticleService
             UserException::throw("Artikel tidak ditemukan", 1006, 404);
         }
         $is_coauthor = $this->co_author_repository->isUserCoAuthoredArticle($user_id, $article->getId());
-        if (!$is_coauthor || $user_id != $article->getAuthorId()) {
+        if (!$is_coauthor && $user_id != $article->getAuthorId()) {
             UserException::throw("User tidak dapat melakukan update", 1006, 403);
         }
 
-        $article = Article::create(
-            $user_id,
+        $article_update = new Article(
+            $article->getId(),
+            $article->getAuthorId(),
             ArticleVisibility::from($request->getVisibility()),
             $request->getTitle(),
             $request->getDescription(),
             $request->getContent(),
             $article->getUrl(),
             $request->getImageUrl(),
+            $article->getCreatedAt(),
+            $article->getUpdatedAt()
         );
 
-        $this->article_repository->persist($article);
+        $this->article_repository->persist($article_update);
     }
 }

@@ -13,36 +13,151 @@
 
     <link rel="stylesheet" href="{{ asset('highlight/styles/lightfair.min.css') }}">
     <script src="{{ asset('highlight/highlight.min.js') }}"></script>
+
+    <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+
 </head>
 
 <body>
     <div class="navbar bg-white mx-auto max-w-full">
         <div class="flex h-full items-center justify-between px-8 w-4/5 mx-auto">
             <h1 class="text-2xl font-bold">
-                LOGO
+                <a href="/">
+                    LOGO
+                </a>
             </h1>
             <div class="font-semibold">
-                <a href="" class="mx-1">SIGN IN</a>
-                <a href="" class="ml-4">SIGN UP</a>
+                <a id="login" href="/login" class="mx-1">SIGN IN</a>
+                <a id="register" href="/register" class="ml-4">SIGN UP</a>
             </div>
         </div>
     </div>
 
     <div class="content w-4/5 mx-auto px-8 flex justify-between">
-        <div class="posts my-16 py-12 pr-10 border-r border-r-[#ECECEC]">
+        <div id="posts" class="posts my-16 py-12 pr-10 border-r border-r-[#ECECEC]">
             <div class="choices max-w-full border-b flex items-center">
-                <span class="active py-3 mr-3 border-b border-black">Trending</span>
-                <span class="py-3">New</span>
+                <span class="active py-3 mr-3 border-b border-black">New</span>
             </div>
 
-            <div class="articles my-12">
+            <script>
+            $(document).ready(function() {
+                $.ajax({
+                    url: '/api/me',
+                    type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+                        // other headers if needed...
+                    },
+                    success: function(data) {
+                        let login = document.getElementById('login');
+                        login.classList.add('invisible');
+                        
+                        let register = document.getElementById('register');
+                        register.href = "/u/" + data.data.username;
+                        register.textContent = "PROFILE"
+                        // Handle the successful response
+                        console.log(data);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        console.error(xhr.responseText);
+                        // return window.location.href = '/404';
+                    }
+                });
+
+                let page;
+
+                if (!window.location.pathname.split('/')[2]) {
+                    page = 1;
+                }
+                else {
+                    page = window.location.pathname.split('/')[2];
+                }
+
+                $.ajax({
+                    url: '/api/articles/q?page='+ page +'&per_page=5',
+                    method: 'GET',
+                    success: function(data) {
+                        console.log(data);
+
+                        let articles = data.data.data_per_page;
+                    
+                        for (let i = 0; i < articles.length; i++) {
+                            let article = articles[i];
+
+                            if (article.visibility == 'published') {
+                                
+                                let articleHTML = '<div class="article my-20">';
+                                articleHTML += '<a href="/' + article.author.username + '/' + article.url + '">';
+                                articleHTML += '<div class="flex justify-between relative min-h-[120px]">';
+                                articleHTML += '<div class="information pr-5">';
+                                articleHTML += '<h1 id="title" class="text-xl font-bold">' + article.title + '</h1>';
+                                articleHTML += '<p id="description" class="min-h-[150px] max-h-[150px] text-sm mt-3 text-ellipsis overflow-hidden">' + article.description + '</p>';
+                                articleHTML += '</div>';
+                                articleHTML += '<div class="thumbnail w-1/4 overflow-hidden">';
+                                articleHTML += '<img src="' + article.image_url + '" alt="' + article.title + '" />';
+                                articleHTML += '</div>';
+                                articleHTML += '</div>';
+                                articleHTML += '</a>';
+                                articleHTML += '<div class="flex justify-between items-end">';
+                                articleHTML += '<div class="author w-1/2 mt-5">';
+                                articleHTML += '<div class="flex items-center justify-start">';
+                                articleHTML += '<div class="profile overflow-hidden">';
+                                articleHTML += '<img src="' + article.author.photo + '" alt="' + article.author.name + '" />';
+                                articleHTML += '</div>';
+                                articleHTML += '<span class="name text-sm font-medium pl-2 text-black">' + article.author.name + '</span>';
+                                const date = new Date(article.created_at);
+                                const dateOnly = date.toISOString().split('T')[0];
+                                articleHTML += '<span class="date max-w-[200px] text-sm font-medium text-[717171] mx-5">' + dateOnly + '</span>';
+                                articleHTML += '</div>';
+                                articleHTML += '</div>';
+                                articleHTML += '<div class="post-category flex items-center">';
+                                articleHTML += '<div class="rounded-[15px] bg-[EBEBEB] leading-[32px] w-auto px-3 h-[32px] text-xs">' + article.tags + '</div>';
+                                articleHTML += '</div>';
+                                articleHTML += '</div>';
+                                articleHTML += '</div>';
+                                
+                                $('#posts').append(articleHTML);
+                            }
+                        }
+
+                        if (page-1 == 0) {
+                            page = parseInt(page);
+                            let articleHTML = '<div class="flex justify-between">';
+                            articleHTML += '<div id="prev" class="left-0 invisible"><a href="/page/">Previous page</a></div>';
+                            articleHTML += '<div id="next" class="right-0 text-right"><a href="/page/' + (page+1) + '">Older articles</a></div>';
+                            articleHTML += '</div>';
+                            $('#posts').append(articleHTML);
+                        }
+                        else {
+                            page = parseInt(page);
+                            let articleHTML = '<div class="flex justify-between mt-3">';
+                            articleHTML += '<div id="prev" class="left-0 text-left"><a href="/page/' + (page-1) + '">Previous page</a></div>';
+                            articleHTML += '<div id="next" class="right-0 text-right"><a href="/page/' + (page+1) + '">Older articles</a></div>';
+                            articleHTML += '</div>';
+                            $('#posts').append(articleHTML);
+                            if (articles.length == 0) {
+                                let next = document.getElementById('next');
+                                next.classList.add('invisible');
+                            }
+                        }
+                    },
+                    error: function(error) {
+                        // Handle the error if the post deletion fails
+                        console.error('Failed to load articles', error);
+                    }
+                });
+            });
+            </script>
+
+            <!-- <div class="articles my-12">
                 <a href="">
                 <div class="flex justify-between relative min-h-[120px]">
                     <div class="information pr-5">
-                        <h1 class="text-xl font-bold">
+                        <h1 id="title" class="text-xl font-bold">
                             Get to Know About Stellaron Hunters
                         </h1>
-                        <p class="text-sm mt-3 text-ellipsis overflow-hidden">
+                        <p id="description" class="text-sm mt-3 text-ellipsis overflow-hidden">
                             The Stellaron Hunters are a faction in Honkai: Star Rail. Founded and led by Elio, they are a mysterious organization that collect Stellarons. They are said to work against the Interastral Peace Corporation. Their known members are Kafka, Silver Wolf, Blade, and Sam.   
                         </p>
                     </div>
@@ -145,8 +260,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
+            </div> -->
         </div>
 
         <div class="side my-16 py-12 pl-10">
@@ -249,6 +363,51 @@
             hljs.highlightAll();
         })
     </script> -->
+
+    <script>
+        $(document).ready(function() {
+        let jwt = localStorage.getItem('accessToken');
+        let tokens = jwt.split(".");
+
+        console.log(JSON.parse(atob(tokens[0])));
+        console.log(JSON.parse(atob(tokens[1])));
+
+        const identity = JSON.parse(atob(tokens[1])).user_id;
+        let username = window.location.pathname.split('/')[2];
+        
+        $.ajax({
+            url: '/api/me',
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+                // other headers if needed...
+            },
+            success: function(data) {
+                // let name = document.getElementById('profileName');
+                // name.textContent = data.data.name;
+
+                // let mainProfile = document.getElementById('mainProfile');
+                // mainProfile.href = "/u/" + data.data.username;
+
+                // const usernameReal = data.data.username;
+                // if (username != data.data.username) {
+                //     let logout = document.getElementById('logout');
+                //     logout.classList.add('invisible');
+
+                //     let writeDiv = document.getElementById('writeDiv');
+                //     writeDiv.classList.add('invisible');
+                // }
+                // Handle the successful response
+                console.log(data);
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                console.error(xhr.responseText);
+                // return window.location.href = '/404';
+            }
+        });
+    });
+    </script>
 </body>
 
 </html>

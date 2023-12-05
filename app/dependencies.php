@@ -34,7 +34,7 @@ use App\Infrastrucutre\Repository\SqlRoleHasPermissionRepository;
 use App\Infrastrucutre\Repository\SqlAccountVerificationRepository;
 use App\Core\Domain\Repository\RoleHasPermissionRepositoryInterface;
 use App\Core\Domain\Repository\AccountVerificationRepositoryInterface;
-
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 
 /** @var Application $app */
