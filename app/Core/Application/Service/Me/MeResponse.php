@@ -28,6 +28,7 @@ class MeResponse implements JsonSerializable
         $response = [
             'name' => $this->user->getName(),
             'email' => $this->user->getEmail()->toString(),
+            'username' => $this->user->getUsername(),
             'permission' => [
                 'role_id' => $this->user->getRoleId(),
                 'role' => $this->role,

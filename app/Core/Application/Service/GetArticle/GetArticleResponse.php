@@ -31,6 +31,7 @@ class GetArticleResponse implements JsonSerializable
             'description' => $this->article->getDescription(),
             'content' => $this->article->getContent(),
             'image_url' => $this->article->getImageUrl(),
+            'created_at' => $this->article->getCreatedAt(),
 
             'author' => $this->author,
             'co_authors' => $this->coauthors

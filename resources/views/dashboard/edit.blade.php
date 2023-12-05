@@ -1,8 +1,6 @@
 <html lang='id'>
 
 <head>
-    
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compitable" content="ie=edge">
@@ -20,55 +18,15 @@
     <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-    $(document).ready(function() {
-        let jwt = localStorage.getItem('accessToken');
-        let tokens = jwt.split(".");
-
-        console.log(JSON.parse(atob(tokens[0])));
-        console.log(JSON.parse(atob(tokens[1])));
-
-        const identity = JSON.parse(atob(tokens[1])).user_id;
-
-        let username = window.location.pathname.split('/')[2];
-        
-        $.ajax({
-            url: '/api/me',
-            type: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
-                // other headers if needed...
-            },
-            success: function(data) {
-                let name = document.getElementById('profileName');
-                name.textContent = data.data.name;
-
-                let mainProfile = document.getElementById('mainProfile');
-                mainProfile.href = "/u/" + data.data.username;
-
-                let mainProfile2 = document.getElementById('mainProfile2');
-                mainProfile2.href = "/u/" + data.data.username;
-
-                let linkArticle = document.getElementById('linkArticle');
-                linkArticle.href = "/u/" + data.data.username + "/articles";
-                // Handle the successful response
-                console.log(data);
-            },
-            error: function(xhr, status, error) {
-                // Handle errors
-                console.error(xhr.responseText);
-                // return window.location.href = '/404';
-            }
-        });
-    });
-    </script>
 </head>
 
 <body>
     <div class="navbar bg-white mx-auto max-w-full">
         <div class="flex h-full items-center justify-between px-8 w-4/5 mx-auto">
             <h1 class="text-2xl font-bold">
-                LOGO
+                <a href="/">
+                    LOGO
+                </a>
             </h1>
             <div class="font-semibold">
                 <a id="mainProfile" href="" class="px-1"><img src="{{ asset('../images/icons/profile.png') }}"></a>
@@ -105,11 +63,9 @@
 
         <div class="posts font-['Inter'] min-w-[80%] my-16 py-12 px-10">
             <form action="" method="post" class="w-4/5" id="writePost">
-                <h1 class="text-2xl mb-5">Add new article</h1>
+                <h1 class="text-2xl mb-5">Edit article</h1>
                 <label for="title">Title</label>
-                <input type="text" class="w-full p-1 border border-[#cbccd3] rounded-sm mb-3" name="title" id="title" placeholder="lorem ipsum">
-                <label for="category">Category</label>
-                <input type="text" class="w-full p-1 border border-[#cbccd3] rounded-sm mb-3" name="category[]" id="category[]" placeholder="History">
+                <input type="text" class="w-full p-1 border border-[#cbccd3] rounded-sm mb-3" name="title" id="title" placeholder="Title">
                 <label for="description">Description</label>
                 <input type="text" class="w-full p-1 border border-[#cbccd3] rounded-sm mb-3" name="description" id="description" placeholder="History">
                 
@@ -151,6 +107,10 @@
 
     <script>
         $(document).ready(function() {
+            let username = window.location.pathname.split('/')[1];
+            console.log(username);
+            let url_id = window.location.pathname.split('/')[2];
+
             $('#writePost').submit(function(event) {
                 event.preventDefault(); // Prevent default form submission
 
@@ -160,10 +120,9 @@
                 formData.append('description', $('#description').val());
                 formData.append('content', $('#editor').val());
                 formData.append('image_url', 'http://127.0.0.1:8000');
-                formData.append('tags[]', $('#category').val());
 
                 $.ajax({
-                    url: '/api/articles',
+                    url: '/api/user/' + username + '/' + url_id + '/update',
                     method: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
@@ -186,7 +145,7 @@
                         });
                         Toast.fire({
                             icon: "success",
-                            title: "Add article success"
+                            title: "Edit article success"
                         });
                     },
                     error: function(error) {
@@ -212,6 +171,94 @@
                 });
             });
         });
+    </script>
+
+    <script>
+    $(document).ready(function() {
+        let jwt = localStorage.getItem('accessToken');
+        let tokens = jwt.split(".");
+
+        console.log(JSON.parse(atob(tokens[0])));
+        console.log(JSON.parse(atob(tokens[1])));
+
+        const identity = JSON.parse(atob(tokens[1])).user_id;
+
+        let username = window.location.pathname.split('/')[1];
+        let articleUrl = window.location.pathname.split('/')[2];
+        
+        console.log(username, articleUrl);
+
+        $.ajax({
+            url: '/api/me',
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+                // other headers if needed...
+            },
+            success: function(data) {
+                if (username != data.data.username) {
+                    return window.location.href = '/403';
+                }
+
+                let name = document.getElementById('profileName');
+                name.textContent = data.data.name;
+
+                let mainProfile = document.getElementById('mainProfile');
+                mainProfile.href = "/u/" + data.data.username;
+
+                let mainProfile2 = document.getElementById('mainProfile2');
+                mainProfile2.href = "/u/" + data.data.username;
+
+                let linkArticle = document.getElementById('linkArticle');
+                linkArticle.href = "/u/" + data.data.username + "/articles";
+                // Handle the successful response
+                console.log(data);
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                console.error(xhr.responseText);
+                // return window.location.href = '/404';
+            }
+        });
+
+        $.ajax({
+            url: '/api/user/' + username + '/' + articleUrl,
+            type: 'GET',
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                console.error(xhr.responseText, status, error);
+
+                $.ajax({
+                    url: '/api/user/' + username,
+                    type: 'GET',
+                    success: function(data) {
+                        console.log(data.data.articles);
+
+                        let found = false;
+
+                        for (let i = 0; i < data.data.articles.data.length; i++) {
+                            if (data.data.articles.data[i][0].url == articleUrl) {
+                                found = true;
+                            }
+                        }
+
+                        if (!found) {
+                            return window.location.href = '/404';
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        console.error(xhr.responseText, status, error);
+                    }
+                });
+
+                // return window.location.href = '/404';
+            }
+        });
+    });
     </script>
 
     <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>

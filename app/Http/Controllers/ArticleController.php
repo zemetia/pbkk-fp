@@ -77,7 +77,8 @@ class ArticleController extends Controller
             $request->input('sort'),
             $request->input('type'),
             $request->input('tags'),
-            $request->input('search')
+            $request->input('search'),
+            $request->input('visibility')
         );
 
         $response = $service->execute($input);

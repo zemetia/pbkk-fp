@@ -17,25 +17,43 @@ Route::get('/', function () {
     return view('index');
 });
 
-// Route::get('/dashboard', function () {
-//                 return view('dashboard.index');
-//             })->middleware('iam');
+Route::get('/page/{page}', function () {
+    return view('index');
+});
 
-Route::middleware('iam')->group(
-    function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard.index');
-        });
-        
-        Route::get('/dashboard/articles', function () {
-            return view('dashboard.articles');
-        });
-        
-        Route::get('/dashboard/articles/write', function () {
-            return view('dashboard.write');
-        });
-    }
-);
+Route::get('/u/{username}', function () {
+    return view('dashboard.index');
+});
+
+Route::get('/u/{username}/articles', function () {
+    return view('dashboard.articles');
+});
+
+Route::get('/{username}/{slug}/edit', function () {
+    return view('dashboard.edit');
+});
+
+Route::get('/write', function () {
+    return view('dashboard.write');
+});
+
+Route::get('/{username}/{slug}', function () {
+    return view('detail');
+});
+
+Route::get('/404', function () {
+    return response()->json([
+        "error" => true,
+        "message" => "Halaman tidak ditemukan"
+    ]);
+});
+
+Route::get('/403', function () {
+    return response()->json([
+        "error" => true,
+        "message" => "Halaman tidak bisa diakses"
+    ]);
+});
 
 Route::get('/login', function () {
     return view('login');
